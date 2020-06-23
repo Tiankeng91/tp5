@@ -1,0 +1,134 @@
+{extend name="index/index" /}
+
+{block name="menu"}
+        <nav class="sidebar-main">
+          <ul class="nav nav-drawer">
+            <li class="nav-item"> <!--修改-->
+              <a href="index.html"><i class="mdi mdi-home"></i> 后台首页</a> 
+            </li>
+
+            <li class="nav-item nav-item-has-subnav"><!--修改-->
+              <a href="javascript:void(0)">用户管理</a>
+              <ul class="nav nav-subnav"><!--修改-->
+                <li>
+                  <a href="/admin/user">用户</a>
+                </li>
+                <li> 
+                  <a href="/admin/user-insert">添加用户</a>
+                </li>
+
+              </ul>
+            </li>
+
+            <li class="nav-item nav-item-has-subnav active open"><!--修改-->
+              <a href="javascript:void(0)">分类管理</a>
+              <ul class="nav nav-subnav"><!--修改-->
+                <li>
+                  <a href="/admin/sort">分类</a>
+                </li>
+                <li  class="active"> 
+                  <a href="/admin/sort-insert">添加顶级分类</a>
+                </li>
+
+            <li class="nav-item nav-item-has-subnav"><!--修改-->
+              <a href="javascript:void(0)">商品管理</a>
+              <ul class="nav nav-subnav"><!--修改-->
+                <li>
+                  <a href="/admin/goods">商品</a>
+                </li>
+                <li> 
+                  <a href="/admin/goods-insert">添加商品</a>
+                </li>
+              </ul>
+            </li> 
+
+            <!-- <li class="nav-item nav-item-has-subnav">
+              <a href="javascript:void(0)">购物车管理</a>
+              <ul class="nav nav-subnav">
+                <li>
+                  <a href="/admin/order">购物车</a>
+                </li>
+              </ul>
+            </li>  -->
+
+            <li class="nav-item nav-item-has-subnav"><!--修改-->
+              <a href="javascript:void(0)">订单管理</a>
+              <ul class="nav nav-subnav"><!--修改-->
+                <li>
+                  <a href="/admin/orders">订单</a>
+                </li>
+              </ul>
+            </li>
+<!--             <li class="nav-item nav-item-has-subnav">
+              <a href="javascript:void(0)">轮播图管理</a>
+              <ul class="nav nav-subnav">
+                <li>
+                  <a href="/admin/chart">轮播图</a>
+                  <a href="/admin/chart/add">轮播图添加</a>
+                </li>
+              </ul>
+            </li> 
+ -->
+          
+              </ul>
+            </li>            
+          </ul>
+        </nav>
+{/block}
+
+{block name="main"}
+  <form class="form-horizontal" onsubmit="return false" method="post">
+    <!--错误提示-->
+    <div id="div"></div>
+                          
+    <div class="form-group">
+        <label class="col-sm-2 control-label">顶级分类 / class </label>
+          <div class="col-sm-10">
+            <input type="text" name="sort" placeholder="顶级分类" id="SortInsert"/ class="form-control" style="width: 60%">
+          </div>
+    </div>
+
+    <div class="form-group">
+      <div class="col-sm-offset-2 col-sm-10">
+        <input type="submit" class="am-btn am-btn-success" value="添加顶级分类" onclick="button()"/>
+      </div>
+    </div>
+
+  </form>
+<br>
+
+{/block}
+
+{block name="js"}
+<!--使用js-->
+<script type="text/javascript">
+  //添加顶级分类
+	function button()
+	{
+		var SortInsert = $('#SortInsert').val();
+
+		// console.log(SortInsert);
+    $.ajax({
+      type:"post",
+      url:"/admin/sort-insert-insert",
+      data:{
+        SortInsert:SortInsert
+      },
+      success:function(data)
+      {
+        // console.log(data);
+        var datas = '<div class="alert alert-warning alert-dismissible" role="alert" ><button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button><strong style="margin-left:200px">'+data+'</strong></div>';
+
+        if (data == "添加成功") {
+          alert(data);
+          $('#SortInsert').val("");
+          // parent.location.reload();
+        }else{
+          $('#div').html(datas);
+        }
+      }
+    });
+	}
+
+</script>
+{/block}

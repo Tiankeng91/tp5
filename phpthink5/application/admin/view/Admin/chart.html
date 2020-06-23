@@ -1,0 +1,126 @@
+{extend name="index/index" /}
+
+{block name="menu"}
+        <nav class="sidebar-main">
+          <ul class="nav nav-drawer">
+            <li class="nav-item"> <!--修改-->
+              <a href="index.html"><i class="mdi mdi-home"></i> 后台首页</a> 
+            </li>
+
+            <li class="nav-item nav-item-has-subnav"><!--修改-->
+              <a href="javascript:void(0)">用户管理</a>
+              <ul class="nav nav-subnav"><!--修改-->
+                <li>
+                  <a href="/admin/user">用户</a>
+                </li>
+                <li> 
+                  <a href="/admin/user-insert">添加用户</a>
+                </li>
+
+              </ul>
+            </li>
+
+            <li class="nav-item nav-item-has-subnav"><!--修改-->
+              <a href="javascript:void(0)">分类管理</a>
+              <ul class="nav nav-subnav"><!--修改-->
+                <li>
+                  <a href="/admin/sort">分类</a>
+                </li>
+                <li > 
+                  <a href="/admin/sort-insert">添加顶级分类</a>
+                </li>
+
+              </ul>
+            </li>
+
+            <li class="nav-item nav-item-has-subnav"><!--修改-->
+              <a href="javascript:void(0)">商品管理</a>
+              <ul class="nav nav-subnav"><!--修改-->
+                <li>
+                  <a href="/admin/goods">商品</a>
+                </li>
+                <li> 
+                  <a href="/admin/goods-insert">添加商品</a>
+                </li>
+
+              </ul>
+            </li> 
+
+
+            <li class="nav-item nav-item-has-subnav"><!--修改-->
+              <a href="javascript:void(0)">订单管理</a>
+              <ul class="nav nav-subnav"><!--修改-->
+                <li>
+                  <a href="/admin/orders">订单</a>
+                </li>
+              </ul>
+            </li>
+           
+<!--             <li class="nav-item nav-item-has-subnav">
+              <a href="javascript:void(0)">轮播图管理</a>
+              <ul class="nav nav-subnav">
+                <li>
+                  <a href="/admin/chart">轮播图</a>
+                  <a href="/admin/chart/add">轮播图添加</a>
+                </li>
+              </ul>
+            </li> 
+ --> 
+
+          </ul>
+        </nav>
+{/block}
+
+{block name="main"}
+<table class="table table-hover" id="html">
+  <div>
+    <tr style="width:100%">
+      <th style="width: 60%">图片</th>
+      <th style="width: 20%">链接商品</th>
+      <th style="width: 20%">操作</th>
+    </tr>
+    
+    {volist name = 'charts' id = 'vo'}
+    <tr id="charts{$vo['id']}">
+      <td ><img src="/uploads/{$vo['image']}" style="width:70px;height:70px"></td>
+      <td >{$vo['name']}</td>
+      <td>
+        <input type="button" name="" value="删除" onclick="deletes({$vo['id']})">
+      </td>
+    </tr>
+    {/volist}
+  </div>
+</table>
+
+<div style="margin-left:40%">
+{$page}
+</div>
+{/block}
+
+{block name="js"}
+<script type="text/javascript">
+  //删除
+  function deletes(id)
+  {
+    var btn_delete=confirm("你确定删除");
+
+    if (btn_delete == true) {
+
+      $.ajax({
+        type:'post',
+        url:'/admin/chart/deletes',
+        data:{
+          id:id
+        },
+        success:function(data){
+          // console.log(data);
+          if (data == 1) {
+            alert('删除成功');
+            $('#charts'+id).remove();
+          }
+        }
+      })
+    }
+  }
+</script>
+{/block}

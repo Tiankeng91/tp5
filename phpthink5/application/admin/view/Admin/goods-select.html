@@ -1,0 +1,546 @@
+{extend name="index/index" /}
+
+{block name="menu"}
+        <nav class="sidebar-main">
+          <ul class="nav nav-drawer">
+            <li class="nav-item"> <!--修改-->
+              <a href="index.html"><i class="mdi mdi-home"></i> 后台首页</a> 
+            </li>
+
+            <li class="nav-item nav-item-has-subnav"><!--修改-->
+              <a href="javascript:void(0)">用户管理</a>
+              <ul class="nav nav-subnav">
+                <!--修改-->
+                <li>
+                  <a href="/admin/user">用户</a>
+                </li>
+                <li> 
+                  <a href="/admin/user-insert">添加用户</a>
+                </li>
+
+              </ul>
+            </li>
+            
+            <li class="nav-item nav-item-has-subnav"><!--修改-->
+              <a href="javascript:void(0)">分类管理</a>
+              <ul class="nav nav-subnav">
+                <!--修改-->
+                <li>
+                  <a href="/admin/sort">分类</a>
+                </li>
+                <li> 
+                  <a href="/admin/sort-insert">添加顶级分类</a>
+                </li>
+
+              </ul>
+            </li> 
+
+            <li class="nav-item nav-item-has-subnav active open"><!--修改-->
+              <a href="javascript:void(0)">商品管理</a>
+              <ul class="nav nav-subnav"><!--修改-->
+                <li class="active">
+                  <a href="/admin/goods">商品</a>
+                </li>
+                <li> 
+                  <a href="/admin/goods-insert">添加商品</a>
+                </li>
+
+              </ul>
+            </li> 
+
+            <!-- <li class="nav-item nav-item-has-subnav">
+              <a href="javascript:void(0)">购物车管理</a>
+              <ul class="nav nav-subnav">
+                <li>
+                  <a href="/admin/order">购物车</a>
+                </li>
+              </ul>
+            </li>  -->
+
+            <li class="nav-item nav-item-has-subnav"><!--修改-->
+              <a href="javascript:void(0)">订单管理</a>
+              <ul class="nav nav-subnav"><!--修改-->
+                <li>
+                  <a href="/admin/orders">订单</a>
+                </li>
+              </ul>
+            </li>
+                      
+<!--             <li class="nav-item nav-item-has-subnav">
+              <a href="javascript:void(0)">轮播图管理</a>
+              <ul class="nav nav-subnav">
+                <li>
+                  <a href="/admin/chart">轮播图</a>
+                  <a href="/admin/chart/add">轮播图添加</a>
+                </li>
+              </ul>
+            </li> 
+ -->
+ 
+          </ul>
+        </nav>
+{/block}
+
+{block name="main"}
+
+<!--详情窗口窗口开始-->
+<div id="main" style="display:none;width:80%;height:70%;background-color:rgba(255,255,200);position:fixed;z-index: 1;" >
+  <div style="float:right;">
+    <input style="background-color:rgba(200,120,10,0.1);" type="button" name="" value="关闭" id="moin">
+  </div>
+  <br>
+  <br>
+  <div>
+<table class="table table-hover">
+  <div>
+    <tr style="width:100%">
+      <th colspan="3" style="width: 45%">商品图片</th>
+      <th style="width: 30%">商品详情介绍</th>
+      <th style="width: 10%">商品价钱</th>
+      <th style="width: 10%">商品数量</th>
+    </tr>
+
+    <tr id="html">
+      <td id="html0"></td>
+      <td id="html1"></td>
+      <td id="html2"></td>
+      <td id="html3"></td>
+      <td id="html4"></td>
+      <td id="html5"></td>
+    </tr>
+
+  </div>
+</table>  
+  </div>
+</div>
+<!--详情窗口结束-->
+
+<!--修改窗口开始-->
+<div id="mains" style="display:none;width:80%;height:90%;background-color:rgba(255,255,200);position:fixed;z-index: 1;" >
+  <div style="float:right;">
+    <input style="background-color:rgba(200,120,10,0.1);" type="button" name="" value="关闭" id="moins">
+  </div>
+  <br>
+  <br>
+
+ <form role="form" enctype="multipart/form-data"  method="post" onsubmit="return false" id="form">
+
+    <!--后台传id需要，已经css隐藏-->
+    <div id="div" style="display:none" name="div"><input type="text" name="div" value=""></div>
+    <div id="divs"></div>
+    <div class="form-group">
+      <label for="exampleInputEmail1">修改商品名称</label>
+      <div id="edit-name">
+        <input type="text" class="form-control" id="name" name="file1" placeholder="名称">
+      </div>
+    </div>
+
+    <div class="form-group">
+      <label for="exampleInputFile">修改商品图标</label>
+      <div id="edit-image0"></div>
+      <input type="file" name="file2" id="file1" />
+    </div>
+
+    <div class="form-group">
+      <label for="exampleInputEmail1">修改商品价格</label>
+      <div id="edit-price">
+        <input type="text" id="price" name="price" placeholder="商品价格">
+      </div>
+    </div>
+
+    <div class="form-group">
+      <label for="exampleInputEmail1">修改商品介绍详情</label>
+      <div id="edit-names">
+        <input type="text" class="form-control" id="names" name="names" placeholder="商品介绍详情">
+      </div>
+    </div>
+
+    <div class="form-group">
+      <label for="exampleInputEmail1">修改商品数量</label>
+      <div id="edit-number">
+        <input type="text" class="form-control" id="number" name="number" placeholder="商品数量">
+      </div>
+    </div>
+
+
+    <div class="form-group">
+      <label for="exampleInputFile">商品图标（图片重新上传）</label>
+      <!-- <input type="button" name="" value="删除" id="button-delete"> -->
+      <div>
+        <span id="edit-image1"></span><!-- 
+        <span id="edit-image2"></span>
+        <span id="edit-image3"></span> -->
+      </div>
+      <div id="imagess"></div>
+      <input type="file" name="image[]" id="file2" />
+      <input type="button" name="" id="editButton" value="点击添加图片">
+    </div>
+
+    <div class="form-group">
+      <input type="submit" value="修改" id="edit" />
+    </div> 
+
+  </form>
+
+
+</div>
+<!--修改窗口结束-->
+
+<!--搜索-->
+  <form action="/admin/goods/select" method="post">
+      <td>商品名称<input type="text" name="goods-names" id="goods-names" value=""></td>
+      <td>状 态 
+        <select id="goods-select" name="goods-select">
+          <option value="0">--请选择--</option>  
+          <option value="1">不上架</option>  
+          <option value="2">上架</option>  
+          <option value="3">下架</option>  
+        </select>
+      </td>
+
+      <td>商品分类 
+        <select id='goods-sort' name="goods-sort">
+          <option value="s">--请选择--</option>
+            {volist name='sort' id='user'}
+              <option value="{$user->id}">
+                <?php echo str_repeat('-',$user['gra'] * 2)?>
+                {$user->name}
+              </option>
+            {/volist}
+        </select>
+      </td> 
+
+      <td>
+        <button>搜索</button>
+      </td>
+  </form>
+<!--搜索结束-->
+
+<table class="table table-hover" id="html">
+  <div>
+    <tr style="width:100%">
+      <th style="width: 15%">商品图标</th>
+      <th style="width: 15%">商品名称</th>
+      <th style="width: 15%">添加时间</th>
+      <th style="width: 15%">修改时间</th>
+      <th style="width: 20%">商品状态</th>
+      <th style="width: 20%">操作</th>
+    </tr>
+    
+    {volist name = 'goods' id='v'}
+    <tr id="goo{$v['id']}">
+      <td id="goods-imageName{$v['id']}"><img src="/uploads/{$v['imageName']}" style="width:70px;height:70px"></td>
+      <td id="goods-name{$v['id']}">{$v['name']}</td>
+      <td id="goods-date">{$v['date']}</td>
+      <td id="goods-dates{$v['id']}">{$v['dates']}</td>
+      <td id="goods-state{$v['id']}"><a href="javascript:void(0)" onclick="line({$v['id']})">{$data[$v['state']]}</a></td>
+      <td>
+        <input type="button" name="" value="详情" onclick="add({$v['id']})">
+        <input type="button" name="" value="修改" onclick="edit({$v['id']})">
+        <input type="button" name="" value="删除" onclick="btn_deletes({$v['id']})">
+      </td>
+    </tr>
+    {/volist}
+  </div>
+</table>
+<div style="margin-left:40%">
+{$page}
+</div>
+{/block}
+
+{block name="js"}
+<!-- <script type="text/javascript" src="__STATIC__/Admin/goods/goods.js"></script> -->
+<script type="text/javascript">
+  function add(id){
+    $("#main").fadeIn();
+
+      $.ajax({
+        type:'post',
+        url:'/admin/goods/details',
+        data:{
+          id:id,
+        },
+        success:function(data)
+        {
+
+          console.log(data);
+          //返回字符串类型的图片
+          var str = data['image'];
+          //字符串转数组
+          var image = str.split(",/");
+          //数组遍历并赋值
+          for (var k = 0, length = image.length; k < length; k++) {
+            var html1 = '<td id="html'+k+'"><img src="/uploads/'+image[k]+'" style="width:70px;height:70px"></td>';
+              $('#html0').append(html1);
+          } 
+            //商品介绍
+            var html2 = '<td id="html2">'+data['names']+'</td>';
+            //商品价格
+            var html3 = '<td id="html3">'+data['price']+'</td>';
+            //商品数量
+            var html4 = '<td id="html3">'+data['number']+'</td>';
+            $('#html3').html(html2);
+            $('#html4').html(html3);
+            $('#html5').html(html4);
+
+        }
+      });
+
+      //关闭窗口并进行清除留的值防止下一个详情覆盖空位
+    $('#moin').click(function(){
+      $('#html0').html('');
+      $('#html1').html('');
+      $('#html2').html('');
+      $('#html3').html('');
+      $('#html4').html('');
+      $('#html5').html('');
+      //关闭窗口
+      $("#main").fadeOut();
+    })
+
+  }
+
+  //修改
+  function edit(id)
+  {  
+    //向后台输入id需要
+    var ids ='<input type="text" name="div" value="'+id+'">';
+    $('#div').html(ids);
+
+    //打开窗口
+    $("#mains").fadeIn();
+    //获取商品名称
+    var goodsName = $('#goods-name'+id).html();
+    //修改的时候显示原来的名称
+    var goodsNames = '<input type="text" class="form-control" id="name" name="file1" placeholder="'+goodsName+'">';
+
+    $('#edit-name').html(goodsNames);
+
+    //详情图片
+    $.ajax({
+      type:'post',
+      url:'/admin/goods/edits',
+      data:{
+        id:id,
+      },
+      success:function(data)
+      { 
+        //字符串转数组
+        var image = data.split(",\/");
+
+        $("#edit-image0").html('<img src="/uploads/'+image[0]+'" style="width:70px;height:70px">');
+        //清除第一个数组元素
+        var newArr = image.slice(1);
+          //循环插入图片
+          for (var k = 0, length = newArr.length; k < length; k++) {
+            var html1 = '<img src="/uploads/'+newArr[k]+'" style="width:70px;height:70px">';
+            $('#edit-image1').append(html1);
+          }         
+      }
+    });
+
+    //添加修改的时候按钮添加上传
+      //新的input元素
+    var count=3; //定义一个数
+    $('#editButton').click(function(){
+      //新的input元素
+      var obj = '<input type="file" name="image[]"id=file"'+count+'">';
+        //在id为image的下面新加input元素
+        $('#imagess').append(obj);
+        //判断数。，我这里限制次数
+        if(count==4){
+          $("#editButton").css("display","none") //这里是做了隐藏，你可以让内他不能点击容
+        }
+        count=count+1;
+    })   
+
+  //修改的时候显示原来详情信息
+  $.ajax({
+        type:'post',
+        url:'/admin/goods/details',
+        data:{
+          id:id,
+        },
+        success:function(data)
+        {    
+          // console.log(data);
+          //价格
+            var html1 = '<input type="text" id="price" name="price" placeholder="'+data['price']+'">';
+            // //详情介绍
+            var html2 = '<input type="text" class="form-control" id="names" name="names" placeholder="'+data['names']+'">';
+            // //商品数量
+            var html3 = '<input type="text" class="form-control" id="number" name="number" placeholder="'+data['number']+'">'
+            $('#edit-price').html(html1);
+            $('#edit-names').html(html2);
+            $('#edit-number').html(html3);
+
+        }
+      });
+
+    //确定修改
+    $('#edit').click(function(){
+      // console.log(id);
+      var formData = new FormData($('#form')[0]);
+      // console.log(formData);
+      $.ajax({
+        type:'post',
+        url:'/admin/goods/edit',
+        data:formData,//传数据
+        cache: false, //
+        processData: false, //不要设置Content-Type请求头  
+        contentType: false, //不要处理发送的数据
+        success:function(data)
+        {  
+
+          // console.log(data);
+          //判断返回上string字符串就是验证
+          if (typeof data == 'string') {
+            var datas = '<div class="alert alert-warning alert-dismissible" role="alert" ><button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button><strong style="margin-left:200px">'+data+'</strong></div>';
+
+            $('#divs').html(datas);
+
+          //判断返回2。什么也不修改
+          }else if(data == 2){
+            //关闭窗口
+            $("#mains").fadeOut();
+
+          //判断是对象就是修改名称/时间/图标           
+          }else if(typeof data == 'object'){
+            $('#goods-name'+id).html(data['name']);
+            $('#goods-dates'+id).html(data['dates']);
+            $('#goods-imageName'+id).html('<img src="/uploads/'+data['imageName']+'" style="width:70px;height:70px">');
+
+            $('#name').html("");
+            $('#file1').val("");
+            $('#divs').html("");
+            $('#edit-image0').html("");
+            $('#edit-image1').html("");
+            $('#edit-image2').html("");
+            $('#edit-image3').html("");
+            $("#mains").fadeOut();
+          }
+
+          //商品数量为0的时候显示状态
+          $.ajax({
+            type:'post',
+            url:'/admin/goods/edit/state',
+            data:{
+              id:id,
+            },
+            success:function(data)
+            { 
+
+              if (data != '1') {
+                $('#goods-state'+id).html('<a href="javascript:void(0)" onclick="line('+id+')">上架</a>');
+              }else{
+                $('#goods-state'+id).html('<a href="javascript:void(0)" onclick="line('+id+')">下架</a>');
+
+              }
+
+            }
+          });
+        }        
+      });
+
+
+
+    })
+
+    //关闭的时候清空原来的值
+    $('#moins').click(function(){
+      $('#name').html("");
+      $('#file1').val("");
+
+      $('#edit-image0').html("");
+      $('#edit-image1').html("");
+      $('#edit-image2').html("");
+      $('#edit-image3').html("");
+
+      $("#mains").fadeOut();
+      })
+
+  }
+
+  //删除
+  function btn_deletes(id)
+  { 
+    //确定删除
+    var btn_delete=confirm("你确定删除");
+
+    if (btn_delete == true) {
+    // console.log(id);
+      $.ajax({
+        type:'post',
+        url:'/admin/goods/deletes',
+        data:{
+          id:id,
+        },
+        success:function(data)
+        {
+          // console.log(data);
+          //删除
+          if (data == 0) {
+            $('#goo'+id).remove();
+          }
+        }
+      });
+    }
+  }
+
+  //修改状态
+  function line(id)
+  {
+    $.ajax({
+      type:'post',
+      url:'/admin/goods/line',
+      data:{
+        id:id
+      },
+      success:function(data)
+      { 
+
+        //判断商品数量为0，不能更改
+        if (data == 0) {
+          alert('商品数量为0，不能上架');
+
+        //判断状态是1的时候显示不上架
+        }else if (data['state'] == 1) {
+          //无刷新修改
+          $('#goods-state'+id).html('<a href="javascript:void(0)" onclick="line('+id+')">不上架</a>');
+          //修改更新时间
+          $('#goods-dates'+id).html(data['dates']);
+
+        //判断状态是2的时候显示上架
+        }else if (data['state'] == 2) {
+
+          $('#goods-state'+id).html('<a href="javascript:void(0)" onclick="line('+id+')">上架</a>');
+
+          $('#goods-dates'+id).html(data['dates']);
+
+        //判断状态是3的时候显示下架
+        }else if (data['state'] == 3) {
+          $('#goods-state'+id).html('<a href="javascript:void(0)" onclick="line('+id+')">下架</a>');
+
+          $('#goods-dates'+id).html(data['dates']);
+        }
+
+        
+
+      }
+    });
+  } 
+
+  //网页刷新  商品数量为0，更改下架
+  window.onload = function(){
+    $.ajax({
+      type:'post',
+      url:'/admin/goods/line/state',
+      success:function(data)
+      {
+        $('#goods-state'+data['id']).html('<a href="javascript:void(0)" onclick="line('+data['id']+')">下架</a>');
+
+      }
+    })
+  }
+</script>
+{/block}

@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="UTF-8">
+        <title>天坑商城</title>
+        <link rel="stylesheet" type="text/css" href="__STATIC__/Home/index/./css/style.css">
+        <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/bootstrap@3.3.7/dist/css/bootstrap.min.css">
+    </head>
+    <body>
+    <!-- start header -->
+        <header>
+            <div class="top center">
+                <div class="left fl">
+                    <ul>
+                        <li><a href="/">天坑商城</a></li>
+                        <div class="clear"></div>
+                    </ul>
+                </div>
+                <div class="right fr">
+                    <div class="gouwuche fr"><a href="/home/carts/index">购物车</a></div>
+                    <div class="fr" id='div'>
+                        <ul>
+                            <li id='divlogin'><a href="/home/login" target="_blank">登录</a></li>
+                            <li>|</li>
+                            <li id='divlogin1'><a href="/home/login/post" target="_blank" >注册</a></li>
+                        </ul>
+                    </div>
+                    <div class="clear"></div>
+                </div>
+                <div class="clear"></div>
+            </div>
+        </header>
+    <!--end header -->
+{block name='form'}
+<!-- start banner_x -->
+        <div class="banner_x center">
+            <div class="search fr">
+                <form action="" method="post">
+                    <div class="text fl">
+                        <input type="text" class="shuru"  placeholder="商品">
+                    </div>
+                    <div class="submit fl">
+                        <input type="submit" class="sousuo" value="搜索"/>
+                    </div>
+                    <div class="clear"></div>
+                </form>
+                <div class="clear"></div>
+            </div>
+        </div>
+{/block}
+<!-- end banner_x -->
+
+
+{block name='left'}
+    <!-- start banner_y -->
+        <div class="banner_y center">
+            <div class="nav">               
+                <ul>
+                    <li>
+                        <a href="">米兔</a>
+                        <a href="">生活周边</a>
+                        <div class="pop">
+                            <div class="left fl">
+                                <div>
+                                    <div class="xuangou_left fl">
+                                        <a href="">
+                                            <div class="img fl"><img src="./image/xm5Splus.jpg" alt=""></div>
+                                            <span class="fl">小米5s Plus</span>
+                                            <div class="clear"></div>
+                                        </a>
+                                    </div>
+                                    <div class="xuangou_right fr"><a href="">选购</a></div>
+                                    <div class="clear"></div>
+                                </div>                              
+                            </div>                          
+                            <div class="clear"></div>
+                        </div>
+                    </li>
+                </ul>
+            </div>
+        
+        </div>  
+{/block}
+    <!-- end banner -->
+
+    <!-- start danpin -->
+{block name='main'}
+        <div class="danpin center">
+            
+            <div class="biaoti center">小米明星单品</div>
+            <div class="main center">
+                <div class="mingxing fl">
+                    <div class="sub_mingxing"><a href=""><img src="./image/pinpai1.png" alt=""></a></div>
+                    <div class="pinpai"><a href="">小米MIX</a></div>
+                    <div class="youhui">5月9日-21日享花呗12期分期免息</div>
+                    <div class="jiage">3499元起</div>
+                </div>
+                <div class="clear"></div>
+            </div>
+        </div>
+{/block}
+        <footer class="mt20 center">            
+           
+            <div>©tk.com 京ICP证110507号 京ICP备10046444号 京公网安备11010802020134号 京网文[2014]0059-0009号</div> 
+            <div>违法和不良信息举报电话：183-0205-8822，本网站所列数据，除特殊说明，所有数据均出自我司实验室测试</div>
+        </footer>
+    </body>
+<script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+<script src="__STATIC__/Home/setts/plugins/bootstrap/bootstrap.min.js"></script>
+{block name='js'}{/block}
+
+<script type="text/javascript">
+
+    //显示用户名 ，商品数量
+    window.onload = function(){
+
+        //购买商品数量为1的时候
+        var number =  $('#number').html();
+        var number2 =  $('#number2').html();
+        //库存为1的时候 购买量不能超过1
+        if (number == 1) {
+            $('#puls').css("pointer-events","none");
+        }
+        // console.log(number);
+        // console.log(number2);
+        $('#reduce').css("pointer-events","none")
+
+
+        //购物车订单 共多少商品
+        var hobby  =document.getElementsByClassName("quanxuan");
+        $('#picec').html(hobby.length - 1);
+
+        //轮播图
+        for(var i = 0;i<4;i++){
+            $('#ulimg'+i).css("display","none");
+        }
+        var a = 0;
+        var test2 = setInterval(function(){
+            $('#ulimg'+a++).removeAttr("style",""); 
+            var array = [0,1,2,3,4];
+            array.splice(array.indexOf(a++),1);
+
+            for(var y=0;y<array.length;y++){
+                $('#ulimg'+array[y]).css("display","none");
+            }
+            if (a == 5) {
+                a = 0;
+            }
+        },10000);
+
+
+        //用户登陆信息
+        $.ajax({
+            type:'post',
+            url:'/home/index',
+            success:function(data)
+            {   
+                if (data != 1) {
+                    var data = '<div class="fr" id="div"><ul><li><a href="" id="indexID">'+data+'</a></li><li>|</li><li><a href="/home/index/exit" >退出</a></li><li>|</li>  <li><a href="/home/center" >个人中心</a></li></ul></div>';
+                    $('#div').html(data);
+                }
+            }
+        })
+    }
+
+
+</script>
+
+</html>

@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<title>天坑登陆</title>
+	<link href="https://cdn.jsdelivr.net/npm/bootstrap@3.3.7/dist/css/bootstrap.min.css" rel="stylesheet">
+	<style type="text/css">
+		*{
+			margin:0;
+			padding:0;
+		}
+	/*	整个div*/	
+		#login-id{
+			width:500px;
+			height:300px;
+			margin:300px auto;
+			/*background:rgb('123,23,122');*/
+			/*background-color:#ff0;*/
+		}
+
+		/*form的div*/
+		.login-form-div{
+			width:80%;
+			height:80%;
+			/*background:#23f;*/
+
+			margin-left:200px; 
+			/*border: 1px solid red;*/
+		}
+
+		/*提交按钮的div*/
+		.login-form-div-div{
+			margin-left:20px;
+			width:60%;
+			height:60%;
+			/*border:1px solid red;*/
+		}
+
+		/*按钮大小*/
+		.login-form-div-input{
+			width:100px;
+			/*float:left;*/
+		}
+
+
+	</style>
+</head>
+<body>
+	<div id="login-id">
+		<form role="form" action="/admin/login" method="post" onsubmit="return false">
+			<div id="div" style="margin-left:30%"></div>
+			<div class="login-form-div">
+				<input type="text" name="name" id="name" placeholder="请输入用户名">
+				<label>用户名</label>
+			</div>
+
+			<div class="login-form-div">
+				<input type="password" name="pwd" id="pwd" placeholder="请输入用户名">
+				<label>密码</label>
+			</div>
+
+			<div class="login-form-div">
+				<div class="login-form-div-div">
+					<button class="login-form-div-input" type="submit" id="button">登 录</button>
+				</div>
+			</div>
+			
+		</form>
+	</div>
+</body>
+
+<script  src="__STATIC__/Home/setts/plugins/jquery/jquery.min.js"></script>
+<script src="__STATIC__/Home/setts/plugins/bootstrap/bootstrap.min.js"></script>
+<script src="https://cdn.staticfile.org/jquery/1.10.2/jquery.min.js"></script>
+<script>
+
+	$('#button').click(function(){
+		// console.log(123);
+		var name = $('#name').val();
+		var pwd = $('#pwd').val();
+		$.ajax({
+			type:"post",
+			url:'/admin/logn',
+			data:{
+				name:name,
+				pwd:pwd
+			},
+			success:function(data){
+				// console.log(data);
+				if (data == 1) {
+					alert('登陆成功');
+					window.location.href="http://106.15.207.211/admin";
+					$('#div').html('');
+				}else{
+	              var datas = '<div class="alert alert-warning alert-dismissible" role="alert" style="width:100%"><button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button><strong style="margin-left:10px;">'+data+'</strong></div>';
+	              $('#div').html(datas);             					
+				}
+			}
+		});
+	})
+
+</script>
+</html>

@@ -1,0 +1,255 @@
+{extend name="index/index" /}
+
+{block name="menu"}
+        <nav class="sidebar-main">
+          <ul class="nav nav-drawer">
+            <li class="nav-item"> <!--修改-->
+              <a href="index.html"><i class="mdi mdi-home"></i> 后台首页</a> 
+            </li>
+
+            <li class="nav-item nav-item-has-subnav"><!--修改-->
+              <a href="javascript:void(0)">用户管理</a>
+              <ul class="nav nav-subnav">
+                <!--修改-->
+                <li>
+                  <a href="/admin/user">用户</a>
+                </li>
+                <li> 
+                  <a href="/admin/user-insert">添加用户</a>
+                </li>
+
+              </ul>
+            </li>
+            
+            <li class="nav-item nav-item-has-subnav"><!--修改-->
+              <a href="javascript:void(0)">分类管理</a>
+              <ul class="nav nav-subnav">
+                <!--修改-->
+                <li>
+                  <a href="/admin/sort">分类</a>
+                </li>
+                <li> 
+                  <a href="/admin/sort-insert">添加顶级分类</a>
+                </li>
+
+              </ul>
+            </li> 
+
+            <li class="nav-item nav-item-has-subnav"><!--修改-->
+              <a href="javascript:void(0)">商品管理</a>
+              <ul class="nav nav-subnav"><!--修改-->
+                <li>
+                  <a href="/admin/goods">商品</a>
+                </li>
+                <li> 
+                  <a href="/admin/goods-insert">添加商品</a>
+                </li>
+
+              </ul>
+            </li> 
+
+           <!--  <li class="nav-item nav-item-has-subnav">
+              <a href="javascript:void(0)">购物车管理</a>
+              <ul class="nav nav-subnav">
+                <li>
+                  <a href="/admin/order">购物车</a>
+                </li>
+              </ul>
+            </li> -->
+
+            <li class="nav-item nav-item-has-subnav active open"><!--修改-->
+              <a href="javascript:void(0)">订单管理</a>
+              <ul class="nav nav-subnav"><!--修改-->
+                <li class="active">
+                  <a href="/admin/orders">订单</a>
+                </li>
+              </ul>
+            </li>
+           
+<!--             <li class="nav-item nav-item-has-subnav">
+              <a href="javascript:void(0)">轮播图管理</a>
+              <ul class="nav nav-subnav">
+                <li>
+                  <a href="/admin/chart">轮播图</a>
+                  <a href="/admin/chart/add">轮播图添加</a>
+                </li>
+              </ul>
+            </li> 
+ -->
+
+          </ul>
+        </nav>
+{/block}
+
+{block name="main"}
+<!--详情窗口窗口开始-->
+<div id="main" style="display:none;width:80%;height:70%;background-color:rgba(255,255,200);position:fixed;z-index: 1;" >
+  <div style="float:right;">
+    <input style="background-color:rgba(200,120,10,0.1);" type="button" name="" value="关闭" id="moin">
+  </div>
+  <br>
+  <br>
+  <div>
+<table class="table table-hover">
+  <div>
+  	<thead>
+	    <tr style="width:100%">
+	      <th style="width: 25%">商品名字</th>
+	      <th style="width: 25%">商品图片</th>
+	      <th style="width: 25%">商品数量</th>
+	      <th style="width: 25%">商品价格</th>
+	    </tr>
+	</thead>
+
+	<tbody id="address">
+	    <tr id="html">
+	      <!-- <td id="html0">1</td>
+	      <td id="html1">1</td>
+	      <td id="html2">1</td>
+	      <td id="html3">1</td> -->
+	    </tr>
+	</tbody>
+
+  </div>
+</table>  
+  </div>
+</div>
+<!--详情窗口结束-->
+
+
+<!--搜索-->
+  <form action="/admin/orders/select" method="post">
+      <td>订单编号<input type="text" name="order-names" id="order-names" value=""></td>
+      <td>状 态 
+        <select id="order-select" name="order-select">
+          <option value="0">--请选择--</option>  
+          <option value="1">待发货(-未付款-)</option>  
+          <option value="2">待发货</option>  
+          <option value="3">已发货</option>  
+          <option value="4">完成</option>  
+        </select>
+      </td>
+
+      <td>
+        <button>搜索</button>
+      </td>
+  </form>
+<!--搜索结束-->
+
+
+<table class="table table-hover" id="html">
+  <div>
+    <tr style="width:100%">
+      <th style="width: 10%">订单编号</th>
+      <th style="width: 10%">收货人</th>
+      <th style="width: 25%">收货地址</th>
+      <th style="width: 15%">添加时间</th>
+      <th style="width: 15%">修改时间</th>
+      <th style="width: 10%">订单状态</th>
+      <th style="width: 20%">操作</th>
+    </tr>
+
+    {volist name = 'order' id='vo'}
+    <tr id="order{$vo['id']}">
+      <td id="">{$vo['name']}</td>
+      <td id="">{$vo['names']}</td>
+      <td id="">{$vo['address']}</td>
+      <td id="">{$vo['date']}</td>
+      <td id="">{$vo['dates']}</td>
+      <td id="order-state"><a href="javascript:void(0)" onclick="line({$vo['id']})">{$data[$vo['state']]}</a></td>
+      <td>
+        <input type="button" name="" value="详情" onclick="add({$vo['id']})">
+        <input type="button" name="" value="删除" onclick="deletes({$vo['id']})">
+        <!-- <input type="button" name="" value="删除" onclick="btn_deletes($vo['id'])"> -->
+      </td>
+    </tr>
+    {/volist}
+  </div>
+</table>
+
+<div style="margin-left:40%">
+{$page}
+</div>
+{/block}
+
+{block name="js"}
+<script type="text/javascript">
+	//详情
+	function add(id)
+	{	
+		//打开详情窗口
+		$("#main").fadeIn();
+
+		$.ajax({
+			type:'post',
+			url:'/admin/orders/details',
+			data:{
+				id:id,
+			},
+			success:function(data)
+			{
+		        for(var i=0,add = data.length; i<add;i++)
+		        {
+		        	var html = '<tr><td id="html0">'+data[i]['name']+'</td><td id="html1"><img src="/uploads/'+data[i]['image']+'" style="width:50%;height:50px;"><td id="html2">'+data[i]['number']+'</td><td id="html3">'+data[i]['price']+'</td></td></tr>';
+		          	$("#address").append(html);
+		        }				
+			}
+		})
+
+		//关闭窗口并删除空位
+	    $('#moin').click(function(){
+	    	$("#address").html('');
+	      //关闭窗口
+	      $("#main").fadeOut();
+	    });
+
+	}
+
+	//订单状态修改
+	function line(id)
+	{
+		$.ajax({
+			type:'post',
+			url:'/admin/orders/line',
+			data:{
+				id:id,
+			},
+			success:function(data)
+			{
+				// console.log(data);
+				if (data == '1') {
+					alert('用户未付款,不能发货');
+				}else if(data == '2'){
+					$('#order-state').html('<a href="javascript:void(0)" onclick="line('+id+')">已发货</a>')
+				}else if(data == '3'){
+					alert('已发货,待用户收货');
+				}else{
+          alert('已经完成交易');
+        }
+			}
+		})
+	}
+
+  //订单删除
+  function deletes(id)
+  {
+    var btn_delete=confirm("你确定删除");
+
+    if (btn_delete == true) {
+
+      $.ajax({
+        type:'post',
+        url:'/admin/orders/deletes',
+        data:{
+          id,id,
+        },
+        success:function(data)
+        {
+          // console.log(data);
+          $('#order'+id).remove();
+        }
+      })
+    }
+  }
+</script>
+{/block}

@@ -1,0 +1,314 @@
+{extend name="index/index" /}
+
+{block name='form'}
+
+{/block}
+
+{block name='left'}  
+
+{/block}
+
+{block name='main'}
+
+
+<!-- start banner_x -->
+<!-- <form  method="post" action="/home/sett" class="form center" >
+ -->		<div class="banner_x center">
+			
+			<div class="wdgwc fl ml40">我的购物车</div>
+			<div class="wxts fl ml20">温馨提示：产品是否购买成功，以最终下单为准哦，请尽快结算</div>
+
+			<div class="clear"></div>
+		</div>
+		<div class="xiantiao"></div>
+		<div class="gwcxqbj">
+			<div class="gwcxd center">
+				<div class="top2 center">
+					<div class="sub_top fl">
+						<input type="checkbox" value="quanxuan" class="quanxuan" onclick="checkboxs()" />全选
+					</div>
+					<div class="sub_top fl">商品名称</div>
+					<div class="sub_top fl">单价(¥)</div>
+					<div class="sub_top fl">数量</div>
+					<div class="sub_top fl">小计</div>
+					<div class="sub_top fr">操作</div>
+					<div class="clear"></div>
+				</div>
+				{volist name = 'order' id = 'vo' empty="暂无数据,根据去购物吧"}
+				<div class="content2 center" id="body{$vo['id']}">
+					<div class="sub_content fl ">
+						<input type="checkbox" id="checkbox{$vo['id']}" value="checkbox-{$vo['id']}" class="quanxuan" class="quanxuan{$vo['id']}" onclick="checkbox({$vo['id']})" />
+					</div>
+					<div class="sub_content fl"><img src="/uploads/{$vo['image']}" style="width:70px;height:70px"></div>
+					<div class="sub_content fl ft20">{$vo['name']}</div>
+					<div class="sub_content fl " style="width:65px;margin-left:75px;">
+						<label id="price{$vo['id']}">{$vo['price']}</label>
+					</div>
+					
+					<div class="sub_content fl" style="margin-left:60px;width:9%">
+						<input class="btn btn-default" style="width:34px;height:34px" type="button"id ="sl{$vo['id']}" value="<" onclick="sl({$vo['id']})">
+
+						<label id ="{$vo['id']}" class="number"> {$vo['number']} </label>
+						
+						<!-- <label style="display:none;">{$vo['pidnumber']}</label> -->
+
+						<input  class="btn btn-default" style="width:34px;height:34px" type="button" id ="sl2{$vo['id']}" value=">" onclick="sl2({$vo['id']})">
+					</div>
+					<div class="sub_content fl">¥<label id="zongprice{$vo['id']}">{$vo['zongprice']}</label></div>
+					<div class="sub_content fl"><a href="javascript:void(0)" onclick="Delete({$vo['id']})">×</a></div>
+					<div class="clear"></div>
+				</div>
+					<label class="pidnumber" id="pidnumber{$vo['id']}" style="display:none;">{$vo['pidnumber']}</label>
+				{/volist}
+
+
+			</div>
+			<div class="jiesuandan mt20 center">
+				<div class="tishi fl ml20">
+					<ul>
+						<li><a href="/">继续购物</a></li>
+						<li>|</li>
+						<li>共<span id="picec"></span>件商品，已选择<span id="picec2">0</span>件</li>
+						<div class="clear"></div>
+					</ul>
+				</div>
+				<div class="jiesuan fr">
+					<div class="jiesuanjiage fl">合计（不含运费）：¥<span id="picecprice">0</span>元</div>
+					<div class="jsanniu fr"><input class="jsan" type="submit" name="jiesuan"  value="去结算"/ onclick="jiesuan()"></div>
+					<div class="clear"></div>
+				</div>
+				<div class="clear"></div>
+			</div>
+			
+		</div>
+<!-- </form> -->
+
+{/block}
+
+{block name='js'}
+	<script type="text/javascript">
+		//加
+		function sl2(id)
+		{	
+
+			// 取消减去的css
+			$('#sl'+id).removeAttr("style","");
+
+			//获取选择的商品数量
+			var ids = $('#'+id).html();
+			var pidnumber = $('#pidnumber'+id).html();
+			//价钱
+			var zongprice = $('#zongprice'+id).html();
+			var price = $('#price'+id).html();
+
+			$('#'+id).html(parseInt(ids) + 1);
+			$('#pidnumber'+id).html(pidnumber - 1);
+			$('#zongprice'+id).html((parseInt(ids) + 1) * price);
+
+			if (pidnumber == 1) {
+				$('#sl2'+id).css("pointer-events","none");
+			}else if(pidnumber == 0){
+				$('#'+id).html(ids);
+				$('#pidnumber'+id).html(pidnumber);
+				$('#zongprice'+id).html(ids * price);
+				$('#sl2'+id).css("pointer-events","none");
+			}
+
+			var a  =  $("#checkbox"+id).is(':checked'); 
+			
+			if (a == true) {
+				var picecprice = $('#picecprice').html();
+				var picecprices = parseInt(picecprice)+parseInt(price);
+				$('#picecprice').html(picecprices);
+			}		
+		}
+
+		//判断减去
+		function sl(id)
+		{	
+			$('#sl2'+id).removeAttr("style","");
+			//获取选择的商品数量
+			var ids = $('#'+id).html();
+			var pidnumber = $('#pidnumber'+id).html();
+			//价钱
+			var zongprice = $('#zongprice'+id).html();
+			var price = $('#price'+id).html();
+
+			$('#'+id).html(ids - 1);
+			$('#pidnumber'+id).html(parseInt(pidnumber) + 1);
+			$('#zongprice'+id).html((ids - 1) * price);
+
+			if (ids == 2) {
+				$('#sl'+id).css("pointer-events","none");
+			}else if(ids == 1){
+				$('#'+id).html(ids);
+				$('#zongprice'+id).html(ids * price);
+				$('#pidnumber'+id).html(pidnumber);
+				$('#sl'+id).css("pointer-events","none");
+			}
+
+			var a  =  $("#checkbox"+id).is(':checked'); 
+			if (a == true) {
+				var picecprice = $('#picecprice').html();
+				var picecprices = parseInt(picecprice) - parseInt(price);
+				$('#picecprice').html(picecprices);
+			}
+		}
+
+		//删除
+		function Delete(id)
+		{
+			$.ajax({
+				type:'post',
+				url:'/home/carts/Delete',
+				data:{
+					id:id,
+				},
+				success:function(data)
+				{
+					// console.log(data)
+					if (data == 1) {
+						$('#body'+id).remove();
+					}
+				}
+			})
+
+		}	
+
+		// window.arr = [];
+
+		//选择窗口按钮
+		function checkbox(id) 
+		{
+			//判断是否点击
+			var a  =  $("#checkbox"+id).is(':checked');   
+
+			//点击
+			if (a == true) {
+				//获取商品总价
+				var price = $('#zongprice'+id).html();
+				//获取选择几件商品
+				var picec2 = $('#picec2').html();
+				var sl = parseInt(picec2) + 1;
+				$('#picec2').html(sl)
+
+				//获取商品一共的价格
+				var zongprice = $('#picecprice').html();
+				var price2 = parseInt(zongprice) + parseInt(price);
+				$('#picecprice').html(price2);
+
+			}else{
+				//商品数量
+				var picec2 = $('#picec2').html();
+				var sl =picec2 - 1;
+				$('#picec2').html(sl)
+
+				//商品价格
+				var price = $('#zongprice'+id).html();
+				var zongprice = $('#picecprice').html();
+				var price2 = parseInt(zongprice) - parseInt(price);
+				$('#picecprice').html(price2);
+			}
+
+		}
+
+
+		//全部选择
+		function checkboxs()
+		{	
+			//获取元素
+			var hobby  =document.getElementsByClassName("quanxuan");
+
+			//定义一个数量为0
+			var sum = 0;
+			//
+			for(var i  =0;i<hobby.length;i++){
+				// console.log(hobby[i]);
+			    var h = hobby[i];
+			    //全部按钮点击
+			    h.checked = true;	
+
+			    //选择数量为全部
+			    $('#picec2').html(hobby.length - 1);
+
+			    //获取各各商品的id
+			   	var arr = h.value;
+			   	var split = arr.split('-')['1'];
+
+			   	//判断
+			   	if (typeof split == 'string') {
+			   		// console.log(split);
+			   		//获取价钱
+			   		var price = $('#zongprice'+split).html();
+
+			   		//商品价钱总和
+			   		sum = parseInt(sum) + parseInt(price);
+
+			   	}
+
+
+		    }
+
+		    //总价
+		    $('#picecprice').html(sum);
+
+		}
+
+
+		//结算
+		function jiesuan()
+		{
+			// console.log('213');
+
+			//获取元素
+			var hobby  =document.getElementsByClassName("quanxuan");
+
+			var sum = '';
+			//
+			for(var i  =0;i<hobby.length;i++){
+				// console.log(hobby[i]);
+			    var h = hobby[i];
+
+			    //获取各各商品的id
+			   	var arr = h.value;
+			   	var split = arr.split('-')['1'];
+
+			   	//判断
+			   	if (typeof split == 'string') {
+					var a  =  $("#checkbox"+split).is(':checked');   
+
+					if (a == true) {
+						sum +=split+',';
+						var number = split+','+$('#'+split).html();
+						$.ajax({
+							type:'post',
+							url:'/home/carts/puls',
+							data:{
+								number:number,
+							},
+							success:function(data){
+								// console.log(data);
+								// if (data == 1) {
+									window.location.href="http://106.15.207.211/home/sett?id="+sum;
+								// }else{
+								// 	window.location.href="http://106.15.207.211/home/sett?id="+sum;
+								// }
+							}
+						})
+
+
+
+
+							
+					}
+
+			   	}
+
+
+		    }		
+
+			//
+		}
+
+	</script>
+{/block}

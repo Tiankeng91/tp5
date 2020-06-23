@@ -1,0 +1,91 @@
+{extend name="index/index" /}
+
+{block name='form'}
+        <div class="banner_x center">
+            <div class="search fr">
+                <form action="/home/select" method="post">
+                    <div class="text fl">
+                        <input type="text" class="shuru" name="name" id="name" placeholder="请输入商品">
+                    </div>
+                    <div class="submit fl">
+                        <input type="submit"  class="sousuo" value="搜索"/>
+                    </div>
+                    <div class="clear"></div>
+                </form>
+                <div class="clear"></div>
+            </div>
+        </div>
+{/block}
+
+
+{block name='left'}  
+    <!-- start banner_y -->
+        <div class="banner_y center" >
+        <!--     <div style="float: right;width: 81%;background: #0f0;height: 460px;">
+                <ul>
+                    <li id="ulimg0"><img src="" style="width:100%;height:460px;"></li>
+                    <li id="ulimg1"><img src="" style="width:100%;height:460px;"></li>
+                    <li id="ulimg2"><img src="" style="width:100%;height:460px;"></li>
+                    <li id="ulimg3"><img src="" style="width:100%;height:460px;"></li>
+                    <li id="ulimg4"><img src="" style="width:100%;height:460px;"></li>
+                </ul>
+            </div> -->
+            <div class="nav">               
+                <ul>
+                    {volist name = 'sort' id ='vo' empty="暂时没有数据"}
+                    <li style="width:250px">
+                        <a href="/home/select?id={$vo['id']}">{$vo['name']}</a>
+                        <div class="pop" style="overflow:hidden">
+                            <div class="left fl">
+                                <ul>
+                                    {volist name = "vo['child']" id = 'vo'}
+                                    <div class="xuangou_left fl">
+                                        <a href="/home/select2?id={$vo['id']}"><span class="fl">{$vo['name']}</span> </a>
+                                            <div class="clear" >
+                                                <ul>
+                                                    {volist name = "vo['child2']" id = 'vo'}
+                                                    <div style="margin:10px"><a href="/home/select2?id={$vo['id']}">{$vo['name']}</a></div>
+                                                    {/volist}
+                                                </ul>
+                                            </div>
+                                    </div>
+                                    {/volist}
+                                    <div class="clear"></div>
+                                </ul>                             
+                            </div>                          
+                            <div class="clear"></div>
+                        </div>
+                    </li>
+                    {/volist}
+                </ul>
+            </div>
+        
+        </div> 
+{/block}
+
+{block name='main'}
+        <div class="danpin center">
+            {volist name = 'good' id ='vo' empty="暂时没有数据"}
+            <div class="biaoti center">{$vo['name']}</div>
+            <div class="main center">
+                {volist name = "vo['good']" id ='vo'}
+                <div class="mingxing fl">
+                    <div class="sub_mingxing"><a href="/home/good?id={$vo['id']}"><img src="/uploads/{$vo['imageName']}" alt=""></a></div>
+                    <div class="pinpai"><a href="">{$vo['name']}</a></div>
+                    {volist name = "vo['good2']" id ='vo'}
+                    <div class="youhui" >{$vo['names']}</div>
+                    <div class="jiage">{$vo['price']}元起</div>
+                    {/volist}
+                </div>
+                {/volist}
+                <div class="clear"></div>
+            </div>
+            {/volist}
+        </div>
+{/block}
+
+{block name='js'}
+<script type="text/javascript">
+
+</script>
+{/block}

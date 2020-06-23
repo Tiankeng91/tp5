@@ -1,0 +1,336 @@
+{extend name="index/index" /}
+
+{block name="menu"}
+        <nav class="sidebar-main">
+          <ul class="nav nav-drawer">
+            <li class="nav-item"> <!--修改-->
+              <a href="index.html"><i class="mdi mdi-home"></i> 后台首页</a> 
+            </li>
+
+            <li class="nav-item nav-item-has-subnav active open"><!--修改-->
+              <a href="javascript:void(0)">用户管理</a>
+              <ul class="nav nav-subnav">
+                <!--修改-->
+                <li class="active">
+                  <a href="/admin/user">用户</a>
+                </li>
+                <li> 
+                  <a href="/admin/user-insert">添加用户</a>
+                </li>
+
+              </ul>
+            </li>
+
+            <li class="nav-item nav-item-has-subnav"><!--修改-->
+              <a href="javascript:void(0)">分类管理</a>
+              <ul class="nav nav-subnav"><!--修改-->
+                <li>
+                  <a href="/admin/sort">分类</a>
+                </li>
+                <li> 
+                  <a href="/admin/sort-insert">添加顶级分类</a>
+                </li>
+
+              </ul>
+            </li> 
+
+            <li class="nav-item nav-item-has-subnav"><!--修改-->
+              <a href="javascript:void(0)">商品管理</a>
+              <ul class="nav nav-subnav"><!--修改-->
+                <li>
+                  <a href="/admin/goods">商品</a>
+                </li>
+                <li> 
+                  <a href="/admin/goods-insert">添加商品</a>
+                </li>
+              </ul>
+            </li> 
+
+<!--             <li class="nav-item nav-item-has-subnav">
+              <a href="javascript:void(0)">购物车管理</a>
+              <ul class="nav nav-subnav">
+                <li>
+                  <a href="/admin/order">购物车</a>
+                </li>
+              </ul>
+            </li>  -->
+
+            <li class="nav-item nav-item-has-subnav"><!--修改-->
+              <a href="javascript:void(0)">订单管理</a>
+              <ul class="nav nav-subnav"><!--修改-->
+                <li>
+                  <a href="/admin/orders">订单</a>
+                </li>
+              </ul>
+            </li> 
+           
+           <!--  <li class="nav-item nav-item-has-subnav">
+              <a href="javascript:void(0)">轮播图管理</a>
+              <ul class="nav nav-subnav">
+                <li>
+                  <a href="/admin/chart">轮播图</a>
+                  <a href="/admin/chart/add">轮播图添加</a>
+                </li>
+              </ul>
+            </li>  -->
+
+          </ul>
+        </nav>
+{/block}
+
+{block name="main"}
+<!--详情窗口窗口开始-->
+<div id="main" style="display:none;width:80%;height:90%;background-color:rgba(255,255,200);position:fixed;z-index: 1;" >
+  <div style="float:right;">
+    <input style="background-color:rgba(200,120,10,0.1);" type="button" name="" value="关闭" id="moin">
+  </div>
+  <br>
+  <br>
+  <div>
+<table class="table table-hover">
+  <div>
+    <thead>
+      <tr style="width:100%">
+        <th style="width:10%">收货人</th>
+        <th style="width:10%">地区</th>
+        <th style="width:55%">详细地址</th>
+        <th style="width:25%">电话号</th>
+      </tr>
+    </thead>
+
+    <tbody id="address">
+      <tr>
+        <td></td>
+      </tr>
+    </tbody>
+
+  </div>
+</table>  
+  </div>
+</div>
+
+<!--修改-->
+<div id="mains" style="display:none;width:80%;height:90%;background-color:rgba(255,255,200);position:fixed;z-index: 1;" >
+  <div style="float:right;">
+    <input style="background-color:rgba(200,120,10,0.1);" type="button" name="" value="关闭" id="moins">
+  </div>
+  <br>
+  <br>
+  <!-- <div style="margin-left:40%;margin-top:20%">  -->
+  <div style="margin-left:32%"> 
+    <table class="table table-hover">
+
+      <form onsubmit="return false">
+        <!--错误提示-->
+        <div id="div" style="margin-left:10px"></div>
+
+            名&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;字:&nbsp;<input type="text" name="name" placeholder="用户名" id="name"/ class="form-control" style="width: 60%">
+
+            密&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;码:&nbsp;<input type="password" name="pwd" id='pwd'/ placeholder="*******" class="form-control" style="width: 60%"/>
+
+          <br>
+          <button type="submit" class="btn btn-default" id="payments" >确定</button>
+      </form>
+
+    </table>  
+  </div>
+</div>
+
+<div>
+  <form action="/admin/select" method="get">
+      <td>用 户 名 <input type="text" name="name" id="name" value=""></td>
+      <td>状 态 
+        <select id="select" name="select">
+          <option value="0">--请选择--</option>  
+          <option value="1">在线</option>  
+          <option value="2">禁用</option>  
+        </select>
+      </td>
+      <td>
+        <!-- <input type="button" name="" value="搜 索" onclick="selects()"> -->
+        <button>搜索</button>
+      </td>
+  </form>
+</div>
+<table class="table table-hover" id="html">
+  <div>
+    <tr style="width:100%">
+      <th style="width: 10%">编号</th>
+      <th style="width: 20%">用户名</th>
+      <th style="width: 15%">状态</th>
+      <th style="width: 15%">角色</th>
+      <th style="width: 20%">地址</th>
+      <th style="width: 20%">操作</th>
+    </tr>
+    
+    {volist name='user' id ='user'}
+    <tr id="{$user.id}">
+      <td>{$user.id}</td>
+      <td id="name{$user->id}">{$user->name}</td>
+      <td id="line{$user->id}"><a href="javascript:void(0)" onclick="line({$user.id})">{$res[$user['line']]}</a></td>
+      <td>{$data[$user.pid]}</td>
+      <td id=""><input type="button" name="" value="地址详情" onclick="address({$user.id})"></td>
+      <td>
+        <input type="button" name="" value="修改" onclick="edit({$user->id})">
+        <input type="button" name="" value="删除" onclick="btn_delete({$user.id})">
+      </td>
+    </tr>
+    {/volist}
+  </div>
+</table>
+<div style="margin-left:40%">
+{$page}
+</div>
+
+{/block}
+
+{block name="js"}
+<!--js部分-->
+<!-- <script src="__STATIC__/Admin/UserSelect/js/index.js"></script> -->
+<script type="text/javascript">
+    //用户删除
+  function btn_delete(id)
+  {
+    var btn_delete=confirm("你确定删除");
+
+    if (btn_delete == true) {
+      $.ajax({
+        type:'post',
+        url:'/admin/delete',
+        data:{
+          id:id,
+        },
+        success:function(data){
+          // console.log(data);
+          $('#'+id).remove();
+        }
+      });
+    }
+  }
+
+ function edit(id)
+ {  
+    //获取已经显示的用户
+    var name = $('#name'+id+'').html();
+
+    //打开窗口
+    $("#mains").fadeIn();
+      //显示用户
+      $('#name').attr("placeholder",name);
+      //确定修改
+      $('#payments').click(function(){
+        //值
+        var names = $('#name').val();
+        var pwd = $('#pwd').val();
+
+        $.ajax({
+          type:'post',
+          url:'/admin/edit',
+          data:{
+            id:id,
+            name:names,
+            pwd:pwd,
+          },
+          success:function(data)
+          {
+            //去除空格
+            var str  = names.replace(/(^\s*)|(\s*$)/g, '');
+            //不是登陆用户
+            if (data == '1') {
+              //判断修改框是否为空
+              if (str == '' || str == undefined || str == null) {
+                //空
+                //关闭窗口
+                $("#mains").fadeOut();
+                //清除错误提示
+                $('#div').html("");   
+              }else{
+                //否空
+                $('#name'+id).html(names);
+                $("#mains").fadeOut(); 
+                $('#div').html("");   
+              }
+
+              //是登陆用户修改
+            }else if(data == '2'){
+              if (str == '' || str == undefined || str == null) {
+                $("#mains").fadeOut();  
+                $('#div').html(""); 
+              }else{
+                $('#name'+id).html(names);
+                //修改登陆显示用户
+                $('#indexName').html(names);
+                $("#mains").fadeOut();
+                $('#div').html("");   
+              }
+            }else{
+              //错误提示
+              var datas = '<div class="alert alert-warning alert-dismissible" role="alert" style="width:62%"><button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button><strong style="margin-left:200px;">'+data+'</strong></div>';
+              $('#div').html(datas);             
+            }
+
+          }
+        });
+
+      })
+
+    $('#moins').click(function(){
+      $('#div').html(""); 
+      $("#mains").fadeOut();  
+    })
+ }
+
+ //用户状态修改
+ function line(id)
+ {
+  $.ajax({
+    type:'post',
+    url:'/admin/line',
+    data:{
+      id:id
+    },
+    success:function(data)
+    {
+      datas = '<a href="javascript:void(0)" onclick="line('+id+')">'+data+'</a>';
+      //修改
+      $('#line'+id).html(datas);
+    }
+  });
+ }
+
+  //地址
+ function address(id)
+ {
+  // console.log('123');
+   $("#main").fadeIn();
+
+    $.ajax({
+      type:'post',
+      url:'/admin/address',
+      data:{
+        id:id,
+      },
+      success:function(data)
+      {
+        // console.log(data);
+        for(var i=0,add = data.length; i<add;i++)
+        {
+          var html = '<tr><td>'+data[i]['name']+'</td><td>'+data[i]['region']+'</td><td>'+data[i]['address']+'</td><td>'+data[i]['phone']+'</td></tr>';
+
+          $("#address").append(html);
+
+        }
+
+      }
+    })
+
+
+    $('#moin').click(function(){
+      //关闭窗口
+      $('#address').html('');
+      $("#main").fadeOut();
+    })
+ }
+
+</script>
+{/block}

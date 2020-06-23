@@ -1,0 +1,90 @@
+{extend name="index/index" /}
+
+{block name='form'}
+
+{/block}
+
+{block name='left'}  
+
+{/block}
+
+{block name='main'}
+	<div class="grzxbj">
+		<div class="selfinfo center">
+		<div class="lfnav fl">
+			<div class="ddzx">订单中心</div>
+			<div class="subddzx">
+				<ul>
+					<li><a href="/home/center" style="color:#ff6700;font-weight:bold;">我的订单</a></li>
+				</ul>
+			</div>
+			<div class="ddzx">个人中心</div>
+			<div class="subddzx">
+				<ul>
+					<li><a href="/home/center/center">我的个人中心</a></li>
+				</ul>
+			</div>
+		</div>
+		<div class="rtcont fr" style="height:100%;">
+			<div class="ddzxbt">交易订单</div>
+			{volist name='order' id='vo'}
+			<div class="ddxq">
+				<div class="ddbh fl">订单号:{$vo['name']}</div>
+				<div class="ztxx fr">
+					<ul>
+						<li style="width:150px"><a href="javascript:void(0)" id="state{$vo['id']}" onclick="state({$vo['id']})">{$data[$vo['state']]}</a></li>
+						<li>￥{$vo['price']}</li>
+						<li style="width:180px">{$vo['date']}</li>
+						<li><a href="/home/center/order?id={$vo['id']}">订单详情></a></li>
+						<div class="clear"></div>
+					</ul>
+				</div>
+				<div class="clear"></div>
+			</div>
+			{/volist}
+
+		</div>
+		<div class="clear"></div>
+		</div>
+	</div>
+
+{/block}
+
+{block name='js'}
+<script type="text/javascript">
+	//状态修改
+	function state(id)
+	{
+		// console.log(id);
+		var state = $('#state'+id).html();
+
+		// console.log(state);
+		if (state == '待发货') {
+			alert('请等待卖家发货');
+		}else if(state == '已发货(-待收货-)'){
+
+			var isbeauty=confirm("确定收货");
+
+				if (isbeauty == true) {
+					
+					$.ajax({
+						type:'post',
+						url:'/home/center/state',
+						data:{
+							id:id
+						},
+						success:function(data)
+						{
+							// console.log(data);
+							if (data == '1') {
+								$('#state'+id).html('确定收货(-完成-)');
+							}
+						}
+					})
+				}
+		}else{
+			alert('交易完成');
+		}
+	}
+</script>
+{/block}

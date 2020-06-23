@@ -1,0 +1,218 @@
+{extend name="index/index" /}
+
+{block name='form'}
+
+{/block}
+
+
+{block name='left'}  
+{volist name = 'good' id = 'v' empty='商品没有库存了'}
+    <form action="post" method="">
+    <div class="xiangqing">
+        <div class="neirong w">
+            <div class="xiaomi6 fl" id='name'>{$v.name}</div>
+            <div class="clear"></div>
+        </div>  
+    </div>
+    
+    <div class="jieshao mt20 w">
+        <div class="left fl"><img src="/uploads/{$v['imageName']}" style="width:100%;height:100%;"></div>
+        <div class="right fr">
+            <div class="h3 ml20 mt20" id="name">{$v['name']}</div>
+            {volist name = "v['goods']" id = 'vo'}
+            <div class="jianjie mr40 ml20 mt10">{$vo['names']}</div>
+            <div class="jiage ml20 mt10">¥{$vo['price']}元</div>
+            <!-- <div id="div" style="display:none" name="div"><input type="text" name="div" value=""></div> -->
+            <div style="margin-left:500px">商品货源 : <label id="number">{$vo['number']}</label></div>
+            <div style="height:210px"></div>            
+            <div class="xqxq mt20 ml20">
+                <div class="top1 mt10">
+                    <div class="left1 fl"> 购买数量 : 
+                        <input type="button" name="" id="reduce" value="<" onclick="sl()">
+                            <label id='number2'> 1 </label>
+                        <input type="button" id='puls' name="" value=">" onclick="sl2()">
+                    </div>
+                    <div class="right1 fr">单价 ：¥<label id='price'>{$vo['price']}</label>元</div>
+                    <div class="clear"></div>
+                </div>
+                <div class="bot mt20 ft20 ftbc">总计：<label id = 'zongprice'>{$vo['price']}</label>元</div>
+            </div>
+            {/volist}
+            <br>
+            <br>
+            <div class="xiadan ml20 mt20">
+                    <input class="jrgwc"  type="button" name="jrgwc" value="立即选购" onclick="at({$v['id']})" />
+                    <input class="jrgwc" type="button" name="jrgwc" value="加入购物车" onclick="cart({$v['id']})" />
+                
+            </div>
+        </div>
+        <div class="clear"></div>
+    </div>
+    </form>
+
+    <div class="xiangqing" style="margin-top:50px;">
+        <div class="neirong w">
+            <div class="xiaomi6 fl" id='name'>商品详情</div>
+            <div class="clear"></div>
+        </div>  
+    </div>
+
+    {volist name = 'image' id ='vo'}
+    <div style="margin: 100px;">
+        <div  id='image0'><img src="/uploads/{$vo}" style="width:70%;"></div>
+    </div>
+    {/volist}
+{/volist}
+{/block}
+
+{block name='main'}
+
+{/block}
+
+{block name='js'}
+<script type="text/javascript">
+
+        //购物车
+        function cart(id)
+        {  
+            //商品数量库存
+            var number = $('#number').html();
+            //商品购买数量
+            var number2 = $('#number2').html();
+            //商品总价
+            var zongprice = $('#zongprice').html();
+
+            //商品剩下
+            var sl = number - number2;
+
+            if (number == 0) {
+
+                alert('商品没有库存了，无法购买');
+
+            }else{
+
+                $.ajax({
+                    type:'post',
+                    url:'/home/carts',
+                    data:{
+                        id:id,
+                        number:sl,
+                        number2:number2,
+                        zongprice:zongprice,
+                    },
+                    success:function(data)
+                    {   
+
+                        // console.log(data);
+                        if (data == 'name') {
+                            window.location.href="http://106.15.207.211/home/login";
+                        }else{
+
+                            // console.log(data);
+                            alert('已添加购物车,请继续');
+                            // $('#number').html(data['number']);
+                            // var number2 = data['number'] - 1;
+                            // $('#number').html(''+number2+'');
+                        }
+                    }
+                }) 
+            }
+
+      }
+
+      //减去商品 -1
+      function sl()
+      {    
+        //取消减按钮的css样式
+        $('#puls').removeAttr("style","");
+        //获取数据的商品数量
+        var number =  $('#number').html();
+        //获取购买数量
+        var number2 =  $('#number2').html();
+        //数据的商品数量-1
+        var sl2 = number2 - 1;
+
+        //商品单价
+        var price = $('#price').html();
+        //商品总价
+        var zongprice = price * sl2;
+
+        $('#number2').html(sl2);
+        $('#zongprice').html(zongprice);   
+        //判断
+        if (number2 == 2) {
+            $('#reduce').css("pointer-events","none")
+        }
+
+
+      }
+
+      //添加商品 + 1
+      function sl2()
+      {
+
+        $('#reduce').removeAttr("style","")
+
+        var number =  $('#number').html();
+        var number2 =  $('#number2').html();
+        var price = $('#price').html();
+
+        var sl2 = parseInt(number2) + 1;
+        var zongprice = price * sl2;
+
+        $('#number2').html(sl2);
+        $('#zongprice').html(zongprice);
+
+        if (number2 == number - 1) {
+            $('#puls').css("pointer-events","none"); 
+        }
+
+      }
+
+         //确定购买
+        function at(id)
+        {  
+
+            // console.log(id);
+            //商品数量库存
+            var number = $('#number').html();
+            //商品购买数量
+            var number2 = $('#number2').html();
+            //商品总价
+            var zongprice = $('#zongprice').html();
+
+            //商品剩下
+            var sl = number - number2;
+
+            if (number == 0) {
+
+                alert('商品没有库存了，无法购买');
+
+            }else{
+
+                $.ajax({
+                    type:'post',
+                    url:'/home/atonce',
+                    data:{
+                        id:id,
+                        number:sl,
+                        number2:number2,
+                        zongprice:zongprice,
+                    },
+                    success:function(data)
+                    {   
+
+                        // console.log(data);
+                        if (data == 'name') {
+                            window.location.href="http://106.15.207.211/home/login";
+                        }else{
+                            window.location.href="http://106.15.207.211/home/sett?id="+data['id']+',';
+                        }
+                    }
+                }) 
+            }
+
+      }
+
+    </script>
+{/block}

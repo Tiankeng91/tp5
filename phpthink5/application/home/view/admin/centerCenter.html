@@ -1,0 +1,370 @@
+{extend name="index/index" /}
+
+{block name='form'}
+
+{/block}
+
+{block name='left'}  
+
+{/block}
+
+{block name='main'}
+<!--name-->
+<div id="sett-main" style="display:none;width:40%;height:40%;margin-left:35%;margin-top:15%;background-color:rgba(255,255,200);position:fixed;z-index: 3;" >
+  <div style="margin:30px;">
+    <div style="float:right;">
+      <input style="background-color:rgba(200,120,10,0.1);" type="button" name="" value="关闭" id="sett-moin">
+    </div>
+    <br>
+    <br>
+    <div>
+    <table class="table table-hover">
+      <form onsubmit="return false">
+        <!--错误提示-->
+        <div id="namediv" style="margin-left:10px"></div>
+          <div class="username">名&nbsp;&nbsp;&nbsp;&nbsp;子:&nbsp;<input class="shurukuang"  type="text" name="name" id='name' placeholder="{$name}"/></div>
+
+          <button type="submit" class="btn btn-default" id="payment" >确定</button>
+      </form>
+    </table>  
+    </div>
+  </div>
+</div>
+
+<!--pwd-->
+<div id="sett-main-pwd" style="display:none;width:40%;height:40%;margin-left:35%;margin-top:15%;background-color:rgba(255,255,200);position:fixed;z-index: 3;" >
+  <div style="margin:30px;">
+    <div style="float:right;">
+      <input style="background-color:rgba(200,120,10,0.1);" type="button" name="" value="关闭" id="sett-moin-pwd">
+    </div>
+    <br>
+    <br>
+    <div>
+    <table class="table table-hover">
+      <form onsubmit="return false">
+        <!--错误提示-->
+        <div id="pwddiv" style="margin-left:10px"></div>
+          <div class="username">旧&nbsp;&nbsp;&nbsp;&nbsp;密&nbsp;&nbsp;&nbsp;&nbsp;码:&nbsp;<input class="shurukuang"  type="password" name="pwd" id='pwd' placeholder=""/></div>
+
+          <div class="username">新&nbsp;&nbsp;&nbsp;&nbsp;密&nbsp;&nbsp;&nbsp;&nbsp;码:&nbsp;<input class="shurukuang"  type="password" name="pwds" id='pwds' placeholder=""/></div>
+
+          <button type="submit" class="btn btn-default" id="payments" >确定</button>
+      </form>
+    </table>  
+    </div>
+  </div>
+</div>
+
+
+<!--address-->
+<div id="sett-main-address" style="display:none;width:40%;height:40%;margin-left:35%;margin-top:15%;background-color:rgba(255,255,200);position:fixed;z-index: 3;" >
+  <div style="margin:30px;">
+    <div style="float:right;">
+      <input style="background-color:rgba(200,120,10,0.1);" type="button" name="" value="关闭" id="sett-moin-address">
+    </div>
+    <br>
+    <br>
+    <div>
+    <table class="table table-hover">
+      <form onsubmit="return false">
+        <!--错误提示-->
+        <div id="addressdiv" style="margin-left:10px"></div>
+          <div class="username">旧&nbsp;&nbsp;&nbsp;&nbsp;密&nbsp;&nbsp;&nbsp;&nbsp;码:&nbsp;<input class="shurukuang"  type="password" name="pwd" id='pwd' placeholder=""/></div>
+
+          <div class="username">新&nbsp;&nbsp;&nbsp;&nbsp;密&nbsp;&nbsp;&nbsp;&nbsp;码:&nbsp;<input class="shurukuang"  type="password" name="pwds" id='pwds' placeholder=""/></div>
+
+          <button type="submit" class="btn btn-default" id="payments" >确定</button>
+      </form>
+    </table>  
+    </div>
+  </div>
+</div>
+
+
+<!--payment-->
+<div id="sett-main-payment" style="display:none;width:40%;height:40%;margin-left:35%;margin-top:15%;background-color:rgba(255,255,200);position:fixed;z-index: 3;" >
+  <div style="margin:30px;">
+    <div style="float:right;">
+      <input style="background-color:rgba(200,120,10,0.1);" type="button" name="" value="关闭" id="sett-moin-payment">
+    </div>
+    <br>
+    <br>
+    <div>
+    <table class="table table-hover">
+      <form onsubmit="return false">
+        <!--错误提示-->
+        <div id="paymendiv" style="margin-left:10px"></div>
+          <div class="username">支&nbsp;&nbsp;&nbsp;&nbsp;付&nbsp;&nbsp;&nbsp;&nbsp;码:&nbsp;<input class="shurukuang"  type="password" id='payment-pwd' placeholder="*** ***"/></div>
+
+          <button type="submit" class="btn btn-default" id="payment2" >确定</button>
+      </form>
+    </table>  
+    </div>
+  </div>
+</div>
+
+<!--price-->
+<div id="sett-main-price" style="display:none;width:40%;height:40%;margin-left:35%;margin-top:15%;background-color:rgba(255,255,200);position:fixed;z-index: 3;" >
+  <div style="margin:30px;">
+    <div style="float:right;">
+      <input style="background-color:rgba(200,120,10,0.1);" type="button" name="" value="关闭" id="sett-moin-price">
+    </div>
+    <br>
+    <br>
+    <div>
+    <table class="table table-hover">
+      <form onsubmit="return false">
+        <!--错误提示-->
+        <div id="pricediv" style="margin-left:10px"></div>
+          <div class="username">支&nbsp;&nbsp;&nbsp;&nbsp;付&nbsp;&nbsp;&nbsp;&nbsp;码:&nbsp;<input class="shurukuang"  type="text" id='name-price' placeholder="充值"/></div>
+
+          <button type="submit" class="btn btn-default" id="price" >确定</button>
+      </form>
+    </table>  
+    </div>
+  </div>
+</div>
+
+<div id="cover" style="background: #000; position: absolute; left: 0px; top: 0px; width: 100%; filter: alpha(opacity=30); opacity: 0.3; display: none; z-index: 2 "></div>
+
+	<div class="grzxbj">
+		<div class="selfinfo center">
+		<div class="lfnav fl">
+			<div class="ddzx">订单中心</div>
+			<div class="subddzx">
+				<ul>
+					<li><a href="/home/center" >我的订单</a></li>
+				</ul>
+			</div>
+			<div class="ddzx">个人中心</div>
+			<div class="subddzx">
+				<ul>
+					<li><a href="/home/center/center" style="color:#ff6700;font-weight:bold;">我的个人中心</a></li>
+					<!-- <li><a href="">收货地址</a></li> -->
+				</ul>
+			</div>
+		</div>
+		{volist name ='user' id='vo'}
+		<div class="rtcont fr">
+			<div class="grzlbt ml40">我的资料</div>
+			<div class="subgrzl ml40"><span style="width:20%">昵称</span><span id="name{$vo['id']}">{$vo['name']}</span><span><a href="javascript:void(0)" onclick="names({$vo['id']})"> 编辑</a></span></div>
+			<div class="subgrzl ml40"><span style="width:20%">密码</span><span>************</span><span><a href="javascript:void(0)" onclick="pwd({$vo['id']})">编辑</a></span></div>
+			<div class="subgrzl ml40">
+				<span style="width:20%">付款码</span>
+				<span>******</span>
+				<span><a href="javascript:void(0)" onclick="payment({$vo['id']})">编辑</a></span>
+			</div>
+			<div class="subgrzl ml40"><span style="width:20%">钱包¥:</span><span id="price{$vo['id']}">{$vo['price']}</span><span><a href="javascript:void(0)" onclick="price({$vo['id']})">充值</a></span></div>
+			{volist name="vo['users']" id ='vo'}
+			<div class="subgrzl ml40">
+				<span style="width:20%">收货地址</span>
+				<span>{$vo['region']}-{$vo['address']}</span>
+				<!-- <span><a href="">编辑</a></span> -->
+			</div>
+			{/volist}
+
+		</div>
+		{/volist}
+		<div class="clear"></div>
+		</div>
+	</div>
+
+{/block}
+
+{block name='js'}
+<script type="text/javascript">
+	//用户名修改
+	function names(id)
+	{
+	    //窗口
+		$("#sett-main").fadeIn();
+
+		$('#cover').css('display','block'); //显示遮罩层
+		$('#cover').css('height',document.body.clientHeight+'px');
+
+			$('#payment').click(function(){
+
+				var name = $("#name").val();
+				$.ajax({
+					type:'post',
+					url:'/home/center/name',
+					data:{
+						id:id,
+						name:name,
+					},
+					success:function(data)
+					{
+						// console.log(data);
+						//错误提示
+						if (data != '1') {
+							var datas = '<div class="alert alert-warning alert-dismissible" role="alert" ><button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button><strong style="margin-left:200px">'+data+'</strong></div>';
+			      			$('#namediv').html(datas); 								
+						}else{
+							$('#name'+id).html(name);
+							$('#indexID').html(name);
+							$('#name').val("");
+							//关闭窗口
+							$('#cover').css('display','none');   //显示遮罩层
+							$("#sett-main").fadeOut();							
+						}
+					}
+				})
+			})	
+
+		$('#sett-moin').click(function(){
+			$('#name').val("");
+			//关闭窗口
+			$('#cover').css('display','none');   //显示遮罩层
+			$("#sett-main").fadeOut();
+		})
+
+	}
+
+
+	//密码修改
+	function pwd(id)
+	{
+	    //窗口
+		$("#sett-main-pwd").fadeIn();
+
+		$('#cover').css('display','block'); //显示遮罩层
+		$('#cover').css('height',document.body.clientHeight+'px');
+
+			$('#payments').click(function(){
+				var pwd = $('#pwd').val();
+				var pwds = $('#pwds').val();
+				$.ajax({
+					type:'post',
+					url:'/home/center/pwd',
+					data:{
+						id:id,
+						pwd:pwd,
+						pwds:pwds,
+					},
+					success:function(data)
+					{	
+						//错误提示
+						if (data != '1') {
+							var datas = '<div class="alert alert-warning alert-dismissible" role="alert" ><button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button><strong style="margin-left:200px">'+data+'</strong></div>';
+			      			$('#pwddiv').html(datas); 								
+						}else{
+							$('#pwd').val("");
+							$('#pwds').val("");
+							//关闭窗口
+							$('#cover').css('display','none');   //显示遮罩层
+							$("#sett-main-pwd").fadeOut();							
+						}
+					}
+				})
+			})	
+
+		$('#sett-moin-pwd').click(function(){
+			$('#pwd').val("");
+			$('#pwds').val("");
+			//关闭窗口
+			$('#cover').css('display','none');   //显示遮罩层
+			$("#sett-main-pwd").fadeOut();
+		})		
+	}
+
+
+	//添加或者修改支付码
+	function payment(id)
+	{	
+		//窗口
+		$("#sett-main-payment").fadeIn();
+
+		$('#cover').css('display','block'); //显示遮罩层
+		$('#cover').css('height',document.body.clientHeight+'px');
+
+		$('#payment2').click(function(){
+
+			var pwd = $('#payment-pwd').val();
+
+			$.ajax({
+				type:'post',
+				url:'/home/center/payment',
+				data:{
+					id:id,
+					payment:pwd,
+				},
+				success:function(data)
+				{
+					// console.log(data);
+					if (data != '1') {
+						var datas = '<div class="alert alert-warning alert-dismissible" role="alert" ><button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button><strong style="margin-left:200px">'+data+'</strong></div>';
+			      		$('#paymendiv').html(datas); 						
+					}else{
+						alert('修改或者添加成功');
+						$('#payment-pwd').val("");
+						$('#cover').css('display','none');   //显示遮罩层
+						$("#sett-main-payment").fadeOut();						
+					}
+				}
+			})
+		})
+
+
+		$('#sett-moin-payment').click(function(){
+			$('#paymendiv').html(""); 
+			$('#payment-pwd').val("");
+			//关闭窗口
+			$('#cover').css('display','none');   //显示遮罩层
+			$("#sett-main-payment").fadeOut();
+		})
+	}
+
+
+	//充值
+	function price(id)
+	{	
+		//窗口	
+		$("#sett-main-price").fadeIn();
+
+		$('#cover').css('display','block'); //显示遮罩层
+		$('#cover').css('height',document.body.clientHeight+'px');
+
+		//确定
+		$('#price').click(function(){
+			//值
+			var name = $('#name-price').val();
+
+			$.ajax({
+				type:'post',
+				url:'/home/center/price',
+				data:{
+					id:id,
+					name:name,
+				},
+				success:function(data)
+				{
+					// console.log(data);
+					if (data == '1') {
+						alert('充值成功');
+						$('#pricediv').html("");
+						$('#name-price').val(""); 
+						$('#price'+id).html(parseInt($('#price'+id).html()) + parseInt(name));
+						//关闭窗口
+						$('#cover').css('display','none');   //显示遮罩层
+						$("#sett-main-price").fadeOut();
+
+					}else{
+						//错误提示
+						var datas = '<div class="alert alert-warning alert-dismissible" role="alert" ><button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button><strong style="margin-left:200px">'+data+'</strong></div>';
+			      		$('#pricediv').html(datas); 						
+					}
+				}
+			})
+		})
+
+		//关闭窗口
+		$('#sett-moin-price').click(function(){
+			$('#pricediv').html(""); 
+			$('#price').val("");
+			//关闭窗口
+			$('#cover').css('display','none');   //显示遮罩层
+			$("#sett-main-price").fadeOut();
+		})
+	}
+</script>
+{/block}

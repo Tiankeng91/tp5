@@ -1,0 +1,128 @@
+{extend name="index/index" /}
+
+{block name="menu"}
+        <nav class="sidebar-main">
+          <ul class="nav nav-drawer">
+            <li class="nav-item"> <!--修改-->
+              <a href="index.html"><i class="mdi mdi-home"></i> 后台首页</a> 
+            </li>
+
+            <li class="nav-item nav-item-has-subnav"><!--修改-->
+              <a href="javascript:void(0)">用户管理</a>
+              <ul class="nav nav-subnav"><!--修改-->
+                <li>
+                  <a href="/admin/user">用户</a>
+                </li>
+                <li> 
+                  <a href="/admin/user-insert">添加用户</a>
+                </li>
+
+              </ul>
+            </li>
+
+            <li class="nav-item nav-item-has-subnav"><!--修改-->
+              <a href="javascript:void(0)">分类管理</a>
+              <ul class="nav nav-subnav"><!--修改-->
+                <li>
+                  <a href="/admin/sort">分类</a>
+                </li>
+                <li > 
+                  <a href="/admin/sort-insert">添加顶级分类</a>
+                </li>
+
+              </ul>
+            </li>
+
+            <li class="nav-item nav-item-has-subnav"><!--修改-->
+              <a href="javascript:void(0)">商品管理</a>
+              <ul class="nav nav-subnav"><!--修改-->
+                <li>
+                  <a href="/admin/goods">商品</a>
+                </li>
+                <li> 
+                  <a href="/admin/goods-insert">添加商品</a>
+                </li>
+
+              </ul>
+            </li> 
+
+
+            <li class="nav-item nav-item-has-subnav"><!--修改-->
+              <a href="javascript:void(0)">订单管理</a>
+              <ul class="nav nav-subnav"><!--修改-->
+                <li>
+                  <a href="/admin/orders">订单</a>
+                </li>
+              </ul>
+            </li>
+           
+<!--             <li class="nav-item nav-item-has-subnav">
+              <a href="javascript:void(0)">轮播图管理</a>
+              <ul class="nav nav-subnav">
+                <li>
+                  <a href="/admin/chart">轮播图</a>
+                  <a href="/admin/chart/add">轮播图添加</a>
+                </li>
+              </ul>
+            </li> 
+ -->
+
+          </ul>
+        </nav>
+{/block}
+
+{block name="main"}
+  <form role="form" enctype="multipart/form-data"  method="post" onsubmit="return false" id="form">
+    <div id="div"></div>
+
+
+    <div class="form-group">
+      <label for="exampleInputFile">商品关系</label>
+      <select id="chart-select" name="chart-select">
+        {volist name='goods' id='vo'}
+          <option value="{$vo['id']}">{$vo.name}</option>
+          {/volist}
+      </select>
+    </div>
+
+    <div class="form-group">
+      <label for="exampleInputFile">轮播图</label>
+      <input type="file" name="file2" id="file" />
+    </div>
+
+
+    <div class="form-group">
+      <input type="submit" value="上传" onclick="add()" />
+    </div> 
+
+  </form>
+
+{/block}
+
+{block name="js"}
+<script type="text/javascript">
+   function add(){
+       var formData = new FormData($('#form')[0]);//获取form数据
+      $.ajax({
+        type:'post',
+        url:'/admin/chart/insert',
+        data:formData,//传数据
+        cache: false, //
+        processData: false, //不要设置Content-Type请求头  
+        contentType: false, //不要处理发送的数据
+        success:function(data)
+        {
+          if (data == 1) {
+            alert('添加成功');
+            $('#div').html("");
+            $('#file').val("");
+          }else{
+           var datas = '<div class="alert alert-warning alert-dismissible" role="alert" ><button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button><strong style="margin-left:200px">'+data+'</strong></div>';
+          $('#div').html(datas);           
+          }
+
+        }
+      });
+    } 
+</script>
+{/block}

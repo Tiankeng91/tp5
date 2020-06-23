@@ -1,0 +1,192 @@
+{extend name="index/index" /}
+
+{block name="menu"}
+        <nav class="sidebar-main">
+          <ul class="nav nav-drawer">
+            <li class="nav-item"> <!--修改-->
+              <a href="index.html"><i class="mdi mdi-home"></i> 后台首页</a> 
+            </li>
+
+            <li class="nav-item nav-item-has-subnav"><!--修改-->
+              <a href="javascript:void(0)">用户管理</a>
+              <ul class="nav nav-subnav"><!--修改-->
+                <li>
+                  <a href="/admin/user">用户</a>
+                </li>
+                <li> 
+                  <a href="/admin/user-insert">添加用户</a>
+                </li>
+
+              </ul>
+            </li>
+
+            <li class="nav-item nav-item-has-subnav"><!--修改-->
+              <a href="javascript:void(0)">分类管理</a>
+              <ul class="nav nav-subnav"><!--修改-->
+                <li>
+                  <a href="/admin/sort">分类</a>
+                </li>
+                <li > 
+                  <a href="/admin/sort-insert">添加顶级分类</a>
+                </li>
+
+              </ul>
+            </li>
+
+            <li class="nav-item nav-item-has-subnav active open"><!--修改-->
+              <a href="javascript:void(0)">商品管理</a>
+              <ul class="nav nav-subnav"><!--修改-->
+                <li>
+                  <a href="/admin/goods">商品</a>
+                </li>
+                <li  class="active"> 
+                  <a href="/admin/goods-insert">添加商品</a>
+                </li>
+
+              </ul>
+            </li> 
+
+          <!--   <li class="nav-item nav-item-has-subnav"><
+              <a href="javascript:void(0)">购物车管理</a>
+              <ul class="nav nav-subnav">
+                <li>
+                  <a href="/admin/order">购物车</a>
+                </li>
+              </ul>
+            </li>  -->
+
+            <li class="nav-item nav-item-has-subnav"><!--修改-->
+              <a href="javascript:void(0)">订单管理</a>
+              <ul class="nav nav-subnav"><!--修改-->
+                <li>
+                  <a href="/admin/orders">订单</a>
+                </li>
+              </ul>
+            </li>
+           
+<!--             <li class="nav-item nav-item-has-subnav">
+              <a href="javascript:void(0)">轮播图管理</a>
+              <ul class="nav nav-subnav">
+                <li>
+                  <a href="/admin/chart">轮播图</a>
+                  <a href="/admin/chart/add">轮播图添加</a>
+                </li>
+              </ul>
+            </li> 
+ -->
+
+          </ul>
+        </nav>
+{/block}
+
+{block name="main"}
+  <form role="form" enctype="multipart/form-data"  method="post" onsubmit="return false" id="form">
+    <div id="div"></div>
+
+    <div class="form-group">
+      <label for="exampleInputEmail1">商品名称</label>
+      <input type="text" class="form-control" id="name" name="file1" placeholder="名称">
+    </div>
+
+    <div class="form-group">
+      <label for="exampleInputFile">商品图标</label>
+      <input type="file" name="file2" id="file" />
+    </div>
+
+    <div class="form-group">
+      <label for="exampleInputFile">分类选择</label>
+        <select id='select' name="file3">
+          <option value="">--请选择--</option>
+            {volist name='sort' id='user'}
+              <option value="{$user->id}">
+                <?php echo str_repeat('-',$user['gra'] * 2)?>
+                {$user->name}
+              </option>
+            {/volist}
+        </select>
+    </div>
+
+    <div class="form-group">
+      <label for="exampleInputEmail1">商品价格</label>
+      <input type="text" id="price" name="price" placeholder="商品价格">
+    </div>
+
+    <div class="form-group">
+      <label for="exampleInputEmail1">商品介绍详情</label>
+      <input type="text" class="form-control" id="names" name="names" placeholder="商品介绍详情">
+    </div>
+
+    <div class="form-group">
+      <label for="exampleInputEmail1">商品存货数量</label>
+      <input type="text" class="form-control" id="number" name="number" placeholder="商品数量">
+    </div>
+
+    <div class="form-group">
+ <!--      <label for="exampleInputFile" id="image">商品多图</label>
+      <input type="file" name="image[]" id="file2" />
+      <input type="button" name="" id="button" value="点击添加图片"> -->
+
+      <label>详情图片：</label>
+      <!-- <input type="file" id="file_input" multiple/> -->
+      <input type="file" name="image[]" id="file2" multiple/>
+    </div>
+
+    <div class="form-group">
+      <input type="submit" value="上传" onclick="add()" />
+    </div> 
+
+  </form>
+
+{/block}
+
+{block name="js"}
+<script type="text/javascript">
+  //按钮添加图片上传
+  // var count=0; //定义一个数
+  // $('#button').click(function(){
+  //   //新的input元素
+  //   var obj = '<input type="file" name="image[]"id="file'+count+'">';
+  //     //在id为image的下面新加input元素
+  //     $('#image').append(obj);
+  //     //判断数。，我这里限制次数
+  //     if(count==1){
+  //       $("#button").css("display","none") //这里是做了隐藏，你可以让内他不能点击容
+  //     }
+  //     count=count+1;
+  // })
+
+    function add(){
+       var formData = new FormData($('#form')[0]);//获取form数据
+      $.ajax({
+        type:'post',
+        url:'/admin/goods/insert',
+        data:formData,//传数据
+        cache: false, //
+        processData: false, //不要设置Content-Type请求头  
+        contentType: false, //不要处理发送的数据
+        success:function(data)
+        {
+          // console.log(data);
+          if (data == 1) {
+            alert('添加成功');
+            $('#name').val("");
+            $('#div').html("");
+            $('#select').val("");
+            $('#file').val("");
+            $('#price').val("");
+            $('#names').val("");
+            $('#number').val("");
+
+            // $('#file0').val("");
+            // $('#file1').val("");
+            $('#file2').val("");
+          }else{
+           var datas = '<div class="alert alert-warning alert-dismissible" role="alert" ><button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button><strong style="margin-left:200px">'+data+'</strong></div>';
+          $('#div').html(datas);           
+          }
+
+        }
+      });
+    } 
+</script>
+{/block}

@@ -1,0 +1,329 @@
+{extend name="index/index" /}
+
+{block name="menu"}
+        <nav class="sidebar-main">
+          <ul class="nav nav-drawer">
+            <li class="nav-item"> <!--修改-->
+              <a href="index.html"><i class="mdi mdi-home"></i> 后台首页</a> 
+            </li>
+
+            <li class="nav-item nav-item-has-subnav"><!--修改-->
+              <a href="javascript:void(0)">用户管理</a>
+              <ul class="nav nav-subnav">
+                <!--修改-->
+                <li>
+                  <a href="/admin/user">用户</a>
+                </li>
+                <li> 
+                  <a href="/admin/user-insert">添加用户</a>
+                </li>
+
+              </ul>
+            </li>
+            
+            <li class="nav-item nav-item-has-subnav active open"><!--修改-->
+              <a href="javascript:void(0)">分类管理</a>
+              <ul class="nav nav-subnav">
+                <!--修改-->
+                <li class="active">
+                  <a href="/admin/sort">分类</a>
+                </li>
+                <li> 
+                  <a href="/admin/sort-insert">添加顶级分类</a>
+                </li>
+
+              </ul>
+            </li> 
+
+            <li class="nav-item nav-item-has-subnav"><!--修改-->
+              <a href="javascript:void(0)">商品管理</a>
+              <ul class="nav nav-subnav"><!--修改-->
+                <li>
+                  <a href="/admin/goods">商品</a>
+                </li>
+                <li> 
+                  <a href="/admin/goods-insert">添加商品</a>
+                </li>
+
+              </ul>
+            </li> 
+
+            <!-- <li class="nav-item nav-item-has-subnav">
+              <a href="javascript:void(0)">购物车管理</a>
+              <ul class="nav nav-subnav">
+                <li>
+                  <a href="/admin/order">购物车</a>
+                </li>
+              </ul>
+            </li>  -->
+
+            <li class="nav-item nav-item-has-subnav"><!--修改-->
+              <a href="javascript:void(0)">订单管理</a>
+              <ul class="nav nav-subnav"><!--修改-->
+                <li>
+                  <a href="/admin/orders">订单</a>
+                </li>
+              </ul>
+            </li>
+           
+<!--             <li class="nav-item nav-item-has-subnav">
+              <a href="javascript:void(0)">轮播图管理</a>
+              <ul class="nav nav-subnav">
+                <li>
+                  <a href="/admin/chart">轮播图</a>
+                  <a href="/admin/chart/add">轮播图添加</a>
+                </li>
+              </ul>
+            </li> 
+ -->
+
+          </ul>
+        </nav>
+{/block}
+
+{block name="main"}
+<!-- <div>
+  <form action="/admin/sortss" method="get">
+      <td>  类 型 <input type="text" name="name" id="name" value=""></td>
+        <button>搜索</button>
+  </form>
+</div> -->
+<!--窗口开始-->
+<div id="main" style="display:none;width:70%;height:70%;background-color:rgba(200,120,10,0.8);position:fixed;margin-left:10%;z-index: 1;" >
+  <div style="float:right;">
+    <input style="background-color:rgba(200,120,10,0.8);" type="button" name="" value="关闭" id="moin">
+  </div>
+  <br>
+  <br>
+  <div>
+    <form class="form-horizontal" onsubmit="return false" method="post">
+      <!--错误提示-->
+      <div id="div"></div>
+                            
+      <div class="form-group">
+          <label class="col-sm-2 control-label">分类 / class </label>
+            <div class="col-sm-10">
+              <input type="text" placeholder="分类" id="sort-name"/ class="form-control" style="width: 60%">
+            </div>
+      </div>
+
+      <div class="form-group">
+        <div class="col-sm-offset-2 col-sm-10">
+          <input type="button" class="am-btn am-btn-success" value="修改分类"/ id="button">
+          <label id="label" style="display:none"></label>
+        </div>
+      </div>
+    </form>
+  </div>
+</div>
+
+<!--添加子窗口-->
+<div id="mains" style="display:none;width:70%;height:70%;background-color:rgba(200,120,10,0.8);position:fixed;margin-left:10%;z-index: 1;" >
+  <div style="float:right;">
+    <input style="background-color:rgba(200,120,10,0.8);" type="button" name="" value="关闭" id="moins">
+  </div>
+  <br>
+  <br>
+  <div>
+    <form class="form-horizontal" onsubmit="return false" method="post">
+      <!--错误提示-->
+      <div id="divv"></div>
+                            
+      <div class="form-group">
+          <label class="col-sm-2 control-label">子分类名字 / class </label>
+            <div class="col-sm-10">
+              <input type="text" placeholder="子分类名字" id="name"/ class="form-control" style="width: 60%">
+            </div>
+      </div>
+
+      <div class="form-group">
+        <div class="col-sm-offset-2 col-sm-10">
+          <input type="button" class="am-btn am-btn-success" value="添加子分类"/ id="buttons">
+          <label id="label" style="display:none"></label>
+        </div>
+      </div>
+    </form>
+  </div>
+</div>
+
+
+<table class="table table-hover" id="html">
+  <div>
+    <tr style="width:100%">
+      <th style="width: 25%,margin-left:30%">类型</th>
+      <th style="width: 25%">操作</th>
+    </tr>
+    
+  {volist name = 'sort' id='v'}
+    <tr id="{$v['id']}">
+      <td id="v{$v['id']}">
+        <!--判断 等级不等于0的时候 输出 ｜-->
+        {if $v['gra'] != 0}|{/if}
+        <!--php 输出 重复次数('-',次数)-->
+        <?php echo str_repeat('-',$v['gra'])?>
+        {$v->name}
+      </td>
+      <td>
+        <input type="button" name="" value="修改" onclick="edit({$v['id']})">
+        <input type="button" name="" value="删除" onclick="btn_deletes({$v['id']})">
+        <input type="button" name="" value="添加子分类" onclick="btn_add({$v['id']})">
+      </td>
+    </tr>
+  {/volist}
+  </div>
+</table>
+<div style="margin-left:40%">
+  <ul class="pagination">
+    <li><a href="/admin/sort/top">&laquo;</a></li>
+    {volist name='ar' id='ar'}
+    <li><a href="/admin/sorts?id={$ar}">{$ar}</a></li>
+
+    {/volist}
+    <li>
+      <a href="/admin/sort/bottom">&raquo;</a>
+    </li>
+  </ul>
+</div>
+{/block}
+
+{block name="js"}
+<!-- <script type="text/javascript" src="__STATIC__/Admin/sort/js/sort.js"></script> -->
+<script type="text/javascript">
+
+//字符串重复指定的次数 (分类等级需要)
+function repeat(str , n){
+  return new Array(n+1).join(str);
+}
+
+
+    //分类修改
+function edit(id)
+  {
+    //打开窗口
+    $("#main").fadeIn();
+    $('#label').html(id);
+    //点击关闭窗口
+    $('#moin').click(function(){
+      $("#main").fadeOut();
+    })
+    
+  }
+    //窗口确定
+    $('#button').click(function(){
+      //值
+      var name = $('#sort-name').val();
+      var id = $('#label').html();
+      $.ajax({
+        type:'post',
+        url:'/admin/sort/edit',
+        data:{
+          id:id,
+          name:name
+        },
+        success:function(data)
+        { 
+          // console.log(data);
+          //错误提示
+          var datas = '<div class="alert alert-warning alert-dismissible" role="alert" ><button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button><strong style="margin-left:200px">'+data+'</strong></div>';
+
+          if (data == '不能为空' || data == '不能超过10个字符') {
+              $('#div').html(datas);
+          }else{   
+            //等级
+            var str = parseInt(data['gra']) - 1;
+
+            html = '<td style="height:47px;">  |&nbsp;&nbsp;'+repeat('-',str)+'&nbsp;'+data['name']+'</td> <td> <input type="button" name="" value="修改" onclick="edit('+data['id']+')"> <input type="button" name="" value="删除" onclick="btn_deletes('+data['id']+')"> <input type="button" name="" value="添加子分类" onclick="btn_add('+data['id']+')"></td>';
+            //无刷新修改 
+            $('#'+id).html(html);
+
+            $('#sort-name').val("");
+            $('#div').html("");
+            //关闭窗口
+            $("#main").fadeOut();
+          }
+     
+        }
+      });     
+    })
+
+  //删除
+  function btn_deletes(id)
+  {
+    var btn_delete=confirm("你确定删除");
+    if (btn_delete == true) {
+      $.ajax({
+        type:'post',
+        url:'/admin/deletes',
+        data:{
+          id:id
+        },
+        success:function(data)
+        {
+          if(data == 2){
+            alert('此分类下有商品');
+          }else if (data != 1) {
+            alert('请先删除子类');
+          }else{
+            $('#'+id).remove();
+          }
+        }
+      });
+    }
+  }
+
+  //修改窗口
+  function btn_add(id)
+  { 
+    //打开窗口
+    $("#mains").fadeIn();
+
+    $('#label').html(id);
+    //点击关闭窗口
+    $('#moins').click(function(){
+      $('#name').val("");
+      $('#divv').html("");     
+      $("#mains").fadeOut();
+    })
+
+  }
+    //确定修改
+    $('#buttons').click(function(){
+      var name = $('#name').val();
+      var id = $('#label').html();
+      $.ajax({
+        type:'post',
+        url:'/admin/sort-data',
+        data:{
+          name:name,
+          id:id
+        },
+        success:function(data)
+        {
+
+          // console.log(data);
+          //错误提示
+          if (typeof data == "string") {
+
+            var datas = '<div class="alert alert-warning alert-dismissible" role="alert" ><button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button><strong style="margin-left:200px">'+data+'</strong></div>';
+            $('#divv').html(datas);
+
+          }else if(typeof data == 'object'){
+            //等级
+            var str = parseInt(data['gra']) - 1;
+
+            //修改
+            html = '<tr id="'+data['id']+'"><td style="height:47px;">  |&nbsp;&nbsp;'+repeat('-',str)+'&nbsp;'+data['name']+'</td> <td> <input type="button" name="" value="修改" onclick="edit('+data['id']+')"> <input type="button" name="" value="删除" onclick="btn_deletes('+data['id']+')"> <input type="button" name="" value="添加子分类" onclick="btn_add('+data['id']+')"></td></tr>';
+            // console.log(data);
+            $('#'+id).after(html);
+            //关闭窗口
+            $("#mains").fadeOut();
+            $('#name').val("");
+            $('#divv').html("");
+          }
+
+        }
+      });      
+    })
+
+</script>
+{/block}

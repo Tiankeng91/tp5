@@ -1,0 +1,147 @@
+{extend name="index/index" /}
+
+{block name="menu"}
+        <nav class="sidebar-main">
+          <ul class="nav nav-drawer">
+            <li class="nav-item"> <!--修改-->
+              <a href="index.html"><i class="mdi mdi-home"></i> 后台首页</a> 
+            </li>
+
+            <li class="nav-item nav-item-has-subnav active open"><!--修改-->
+              <a href="javascript:void(0)">用户管理</a>
+              <ul class="nav nav-subnav">
+                <!--修改-->
+                <li>
+                  <a href="/admin/user">用户</a>
+                </li>
+                <li class="active"> 
+                  <a href="/admin/user-insert">添加用户</a>
+                </li>
+
+              </ul>
+            </li>
+
+            <li class="nav-item nav-item-has-subnav"><!--修改-->
+              <a href="javascript:void(0)">分类管理</a>
+              <ul class="nav nav-subnav"><!--修改-->
+                <li>
+                  <a href="/admin/sort">分类</a>
+                </li>
+                <li> 
+                  <a href="/admin/sort-insert">添加顶级分类</a>
+                </li>
+
+              </ul>
+            </li> 
+
+            <li class="nav-item nav-item-has-subnav"><!--修改-->
+              <a href="javascript:void(0)">商品管理</a>
+              <ul class="nav nav-subnav"><!--修改-->
+                <li>
+                  <a href="/admin/goods">商品</a>
+                </li>
+                <li> 
+                  <a href="/admin/goods-insert">添加商品</a>
+                </li>
+              </ul>
+            </li> 
+
+            <!-- <li class="nav-item nav-item-has-subnav">
+              <a href="javascript:void(0)">购物车管理</a>
+              <ul class="nav nav-subnav">
+                <li>
+                  <a href="/admin/order">购物车</a>
+                </li>
+              </ul>
+            </li>  -->
+
+            <li class="nav-item nav-item-has-subnav"><!--修改-->
+              <a href="javascript:void(0)">订单管理</a>
+              <ul class="nav nav-subnav"><!--修改-->
+                <li>
+                  <a href="/admin/orders">订单</a>
+                </li>
+              </ul>
+            </li>
+            
+<!--             <li class="nav-item nav-item-has-subnav">
+              <a href="javascript:void(0)">轮播图管理</a>
+              <ul class="nav nav-subnav">
+                <li>
+                  <a href="/admin/chart">轮播图</a>
+                  <a href="/admin/chart/add">轮播图添加</a>
+                </li>
+              </ul>
+            </li>  -->
+
+          </ul>
+        </nav>
+{/block}
+
+{block name="main"}
+  <form class="form-horizontal" onsubmit="return false" method="post">
+    <!--错误提示-->
+    <div id="div"></div>
+                          
+    <div class="form-group">
+        <label class="col-sm-2 control-label">用户名 / name </label>
+          <div class="col-sm-10">
+            <input type="text" name="name" placeholder="用户名" id="name"/ class="form-control" style="width: 60%">
+            <!-- <input type="text" name="name" required placeholder="用户名" id="name"/ class="form-control"> -->
+          </div>
+    </div>
+
+    <div class="form-group">
+        <label class="col-sm-2 control-label">密码 / pwd </label>
+          <div class="col-sm-10">
+            <input type="text" name="name" placeholder="密码" id="pwd"/ class="form-control" style="width: 60%">
+          </div>
+    </div>
+                            
+    <div class="form-group">
+      <div class="col-sm-offset-2 col-sm-10">
+        <input type="submit" class="am-btn am-btn-success" value="添加用户" onclick="button()"/>
+      </div>
+    </div>
+
+  </form>
+<!-- <input type="submit" class="btn btn-default" value="提交" onclick="button()" /> -->
+{/block}
+
+{block name="js"}
+<script type="text/javascript">
+  function button(){
+    // console.log('123');
+    // alert('成功');
+    var name = $('#name').val();
+    var pwd = $('#pwd').val();
+
+
+    $.ajax({
+      type:"post",
+      url:"/admin/user-insert/insert",
+      data:{
+        name:name,
+        pwd:pwd
+      },
+      success:function(data){
+        // console.log(data);
+        // alert('添加成功');
+        // console.log('123');
+
+        var datas = '<div class="alert alert-warning alert-dismissible" role="alert" ><button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button><strong style="margin-left:200px">'+data+'</strong></div>';
+
+        if (data == "成功插入") {
+          alert('添加成功');
+          // window.location.reload() 
+          $('#name').val("");  //成功清除输入框的内容
+          $('#pwd').val("");
+        }else{
+        $('#div').html(datas);
+        }        
+      }
+    });
+    }
+</script>
+
+{/block}

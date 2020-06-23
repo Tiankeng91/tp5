@@ -1,0 +1,24 @@
+{extend name="index/index" /}
+
+{block name='left'}
+        <div class="danpin center">
+            <div class="main center">
+                {volist name = 'goods' id = 'vo' empty='暂时没有数据'}
+                <div class="mingxing fl mb20" style="border:2px solid #fff;width:230px;cursor:pointer;" onmouseout="this.style.border='2px solid #fff'" onmousemove="this.style.border='2px solid red'">
+                    <div class="sub_mingxing"><a href="/home/good?id={$vo['id']}" target="_blank"><img src="/uploads/{$vo['imageName']}" alt=""></a></div>
+                    <div class="pinpai"><a href="/home/good?id={$vo['id']}" target="_blank">{$vo['name']}</a></div>
+                    {volist name = "vo['goods']" id = 'vo'}
+                    <div class="youhui">{$vo['names']}</div>
+                    <div class="jiage">¥{$vo['price']}</div>
+                    {/volist}
+                </div>
+                {/volist}
+                
+                <div class="clear"></div>
+            </div>
+        </div>
+{/block}
+
+{block name='main'}
+
+{/block}
